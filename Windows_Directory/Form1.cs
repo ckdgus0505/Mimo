@@ -16,7 +16,6 @@ namespace Mimo
     {
         string dirPath = @"../mimms";
         string filename;
-        bool hasfile;
 
         public Form1()
         {
@@ -40,28 +39,6 @@ namespace Mimo
                     mimLists.Items.Add(filename);
                 }
             }
-
-
-            /*
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-             
-                filepath = openFileDialog1.FileName;
-                filename = filepath.Split('\\')[filepath.Split('\\').Length - 1];
-                StreamReader sr = new StreamReader(filepath);
-                string str = "";
-                while ((str = sr.ReadLine()) != null)
-                {
-                    mimLists.Items.Add(str);
-                }
-                sr.Close();
-
-                this.hasfile = true;
-                this.Text = filename;
-            }
-            */
         }
 
         private void FileRead(params string[] UserInfo)
