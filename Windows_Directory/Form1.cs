@@ -36,7 +36,8 @@ namespace Mimo
                 System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(dirPath);
                 foreach (var item in di.GetFiles())
                 {
-                    mimLists.Items.Add(item.Name);
+                    filename = item.Name.Split('.')[0];
+                    mimLists.Items.Add(filename);
                 }
             }
 
