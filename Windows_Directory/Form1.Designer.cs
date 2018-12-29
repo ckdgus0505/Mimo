@@ -35,80 +35,115 @@
             this.btnSync = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
+            this.fileTitle = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // mimLists
             // 
             this.mimLists.FormattingEnabled = true;
             this.mimLists.ItemHeight = 25;
-            this.mimLists.Location = new System.Drawing.Point(40, 43);
+            this.mimLists.Location = new System.Drawing.Point(34, 77);
             this.mimLists.Name = "mimLists";
-            this.mimLists.Size = new System.Drawing.Size(225, 479);
+            this.mimLists.Size = new System.Drawing.Size(225, 604);
             this.mimLists.TabIndex = 0;
             this.mimLists.SelectedIndexChanged += new System.EventHandler(this.mimLists_SelectedIndexChanged);
             // 
             // showMemo
             // 
-            this.showMemo.Location = new System.Drawing.Point(284, 43);
+            this.showMemo.Location = new System.Drawing.Point(291, 124);
             this.showMemo.Name = "showMemo";
             this.showMemo.Size = new System.Drawing.Size(941, 31);
             this.showMemo.TabIndex = 1;
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(44, 568);
+            this.btnOpen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(68)))), ((int)(((byte)(115)))));
+            this.btnOpen.ForeColor = System.Drawing.Color.White;
+            this.btnOpen.Location = new System.Drawing.Point(0, -4);
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(221, 105);
+            this.btnOpen.Size = new System.Drawing.Size(259, 62);
             this.btnOpen.TabIndex = 2;
             this.btnOpen.Text = "OPEN";
-            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.UseVisualStyleBackColor = false;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(524, 568);
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(68)))), ((int)(((byte)(115)))));
+            this.btnSave.ForeColor = System.Drawing.Color.White;
+            this.btnSave.Location = new System.Drawing.Point(508, -4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(221, 105);
+            this.btnSave.Size = new System.Drawing.Size(259, 62);
             this.btnSave.TabIndex = 2;
             this.btnSave.Text = "SAVE";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
             // 
             // btnSync
             // 
-            this.btnSync.Location = new System.Drawing.Point(1004, 568);
+            this.btnSync.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(68)))), ((int)(((byte)(115)))));
+            this.btnSync.ForeColor = System.Drawing.Color.White;
+            this.btnSync.Location = new System.Drawing.Point(1020, -4);
             this.btnSync.Name = "btnSync";
-            this.btnSync.Size = new System.Drawing.Size(221, 105);
+            this.btnSync.Size = new System.Drawing.Size(259, 62);
             this.btnSync.TabIndex = 2;
-            this.btnSync.Text = "동기화";
-            this.btnSync.UseVisualStyleBackColor = true;
+            this.btnSync.Text = "SYNC";
+            this.btnSync.UseVisualStyleBackColor = false;
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(764, 568);
+            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(68)))), ((int)(((byte)(115)))));
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(764, -4);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(221, 105);
+            this.btnDelete.Size = new System.Drawing.Size(259, 62);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "DELETE";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
             // 
             // btnNew
             // 
-            this.btnNew.Location = new System.Drawing.Point(284, 568);
+            this.btnNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(68)))), ((int)(((byte)(115)))));
+            this.btnNew.ForeColor = System.Drawing.Color.White;
+            this.btnNew.Location = new System.Drawing.Point(255, -4);
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(221, 105);
+            this.btnNew.Size = new System.Drawing.Size(259, 62);
             this.btnNew.TabIndex = 2;
             this.btnNew.Text = "NEW";
-            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.UseVisualStyleBackColor = false;
+            // 
+            // fileTitle
+            // 
+            this.fileTitle.BackColor = System.Drawing.Color.White;
+            this.fileTitle.Location = new System.Drawing.Point(291, 77);
+            this.fileTitle.Name = "fileTitle";
+            this.fileTitle.Size = new System.Drawing.Size(941, 31);
+            this.fileTitle.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.White;
+            this.label1.Enabled = false;
+            this.label1.Location = new System.Drawing.Point(688, 80);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(146, 25);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "제목을 입력하세요";
+            this.label1.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(244)))), ((int)(((byte)(195)))));
             this.ClientSize = new System.Drawing.Size(1271, 713);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSync);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnNew);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnOpen);
+            this.Controls.Add(this.fileTitle);
             this.Controls.Add(this.showMemo);
             this.Controls.Add(this.mimLists);
             this.Name = "Form1";
@@ -127,6 +162,8 @@
         private System.Windows.Forms.Button btnSync;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnNew;
+        private System.Windows.Forms.TextBox fileTitle;
+        private System.Windows.Forms.Label label1;
     }
 }
 

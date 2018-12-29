@@ -14,27 +14,80 @@ namespace Mimo
 
     public partial class Form1 : Form
     {
-        string dirPath = @"..\mimms";
+        string dirPath = @"C:\Users\ckdgu\Documents\GitHub\Mimo\mimms";
         string filename;
 
         public Form1()
         {
             InitializeComponent();
             btnSync.Click += BtnSync_Click;
+            btnNew.Click += BtnNew_Click;
+            btnSave.Click += BtnSave_Click;
+            fileTitle.Click += FileTitle_Click;
+        }
+
+        private void FileTitle_Click(object sender, EventArgs e)
+        {
+            if (fileTitle.Text == "")
+            {
+               // label1.Text("");
+            }
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            string title = mimLists.SelectedIndex.ToString();
+            title = string.Concat(title, ".mimm");
+            title = string.Concat('\\', title);
+            string filePath = string.Concat(dirPath, title);
+            try
+            {
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.WriteAllText(filePath, showMemo.Text.ToString());
+                }
+                else
+                {
+                    MessageBox.Show("");
+                    System.IO.File.Create(filePath);
+
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message.ToString());
+            }
+        }
+
+        private void BtnNew_Click(object sender, EventArgs e)
+        {
+            string title = fileTitle.Text;
+            title = string.Concat(title, ".mimm");
+            title = string.Concat('\\', title);
+            string filePath = string.Concat(dirPath, title);
+            try
+            {
+                System.IO.File.Create(filePath);
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message.ToString());
+            }
+
         }
 
         private void BtnSync_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            //FolderBrowserDialog fbd = new FolderBrowserDialog();
 
             //if (fbd.ShowDialog() == DialogResult.OK)
             //    dirPath = fbd.SelectedPath;
-
-            dirPath = @"..\mimms";
-            MessageBox.Show(dirPath);
-            if (System.IO.Directory.Exists(dirPath))
+            mimLists.Items.Clear();
+            dirPath = @"C:\Users\ckdgu\Documents\GitHub\Mimo\mimms";
+            if (System.IO.Directory.Exists(@dirPath))
             {
-                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(dirPath);
+                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@dirPath);
                 foreach (var item in di.GetFiles())
                 {
                     if (item.Name.Split('.')[1] == "mimm")
