@@ -39,7 +39,8 @@
 
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="300dp"
+                android:id="@+id/MemoListView">
             </ListView>
 
             <LinearLayout
@@ -71,12 +72,13 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@color/colorPrimaryDark"
+                        android:onClick="onButtonNew"
                         android:text="생성"
                         android:textColor="#ffffff"
                         android:textSize="20dp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <Button
                         android:layout_width="100dp"
@@ -84,10 +86,11 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="20dp"
                         android:background="@color/colorPrimaryDark"
+                        android:onClick="onButtonOpen"
                         android:text="열기"
                         android:textColor="#ffffff"
                         android:textSize="20dp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <Button
                         android:layout_width="100dp"
@@ -95,10 +98,11 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="20dp"
                         android:background="@color/colorPrimaryDark"
+                        android:onClick="onButtonDelete"
                         android:text="삭제"
                         android:textColor="#ffffff"
                         android:textSize="20dp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
