@@ -23,7 +23,16 @@ namespace Mimo
             btnSync.Click += BtnSync_Click;
             btnNew.Click += BtnNew_Click;
             btnSave.Click += BtnSave_Click;
+            btnDelete.Click += BtnDelete_Click;
             fileTitle.Click += FileTitle_Click;
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("선택한 메모를 삭제하시겠습니까?", "메모삭제",MessageBoxButtons.YesNo)==DialogResult.Yes)
+            {
+                mimLists.Items.Remove(mimLists.SelectedItem);
+            }
         }
 
         private void FileTitle_Click(object sender, EventArgs e)
