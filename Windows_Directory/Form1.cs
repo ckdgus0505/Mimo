@@ -14,7 +14,7 @@ namespace Mimo
 
     public partial class Form1 : Form
     {
-        string dirPath = @"../mimms";
+        string dirPath = @"..\mimms";
         string filename;
 
         public Form1()
@@ -27,16 +27,21 @@ namespace Mimo
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
 
-            if (fbd.ShowDialog() == DialogResult.OK)
-                dirPath = fbd.SelectedPath;
+            //if (fbd.ShowDialog() == DialogResult.OK)
+            //    dirPath = fbd.SelectedPath;
 
+            dirPath = @"..\mimms";
+            MessageBox.Show(dirPath);
             if (System.IO.Directory.Exists(dirPath))
             {
                 System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(dirPath);
                 foreach (var item in di.GetFiles())
                 {
-                    filename = item.Name.Split('.')[0];
-                    mimLists.Items.Add(filename);
+                    if (item.Name.Split('.')[1] == "mimm")
+                    {
+                        filename = item.Name.Split('.')[0];
+                        mimLists.Items.Add(filename);
+                    }
                 }
             }
         }
