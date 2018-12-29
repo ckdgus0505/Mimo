@@ -1,5 +1,6 @@
 package alpha.mimo;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 public class MemoActivity extends AppCompatActivity {
 
+    String FileName;
     EditText et;
 
     @Override
@@ -22,12 +24,17 @@ public class MemoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memo);
 
+        // ==== List에서 File Name 받아오기 ====
+        Intent ListIntent = getIntent();
+        FileName = ListIntent.getStringExtra("file");
+
+
         et = (EditText) findViewById(R.id.mimoText);
 
         try {
             String dyStr = "";
 
-            BufferedReader br = new BufferedReader(new FileReader(getFilesDir() + "hello.mimm"));
+            BufferedReader br = new BufferedReader(new FileReader(getFilesDir() + FileName + ".mimm"));
             String str = null;
             while ((str = br.readLine()) != null)
                 dyStr += str + "\n";
@@ -45,7 +52,7 @@ public class MemoActivity extends AppCompatActivity {
         try {
             String dyStr = "";
 
-            BufferedWriter bw = new BufferedWriter(new FileWriter(getFilesDir() + "hello.mimm", false));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(getFilesDir() + FileName + ".mimm", false));
             dyStr = String.valueOf(et.getText());
             bw.write(dyStr);
             bw.close();
