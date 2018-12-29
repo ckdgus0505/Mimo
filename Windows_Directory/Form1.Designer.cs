@@ -118,6 +118,7 @@
             this.fileTitle.Name = "fileTitle";
             this.fileTitle.Size = new System.Drawing.Size(941, 31);
             this.fileTitle.TabIndex = 1;
+            this.fileTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
             // 

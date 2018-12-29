@@ -24,7 +24,19 @@ namespace Mimo
             btnNew.Click += BtnNew_Click;
             btnSave.Click += BtnSave_Click;
             btnDelete.Click += BtnDelete_Click;
+            btnOpen.Click += BtnOpen_Click;
             fileTitle.Click += FileTitle_Click;
+        }
+
+        private void BtnOpen_Click(object sender, EventArgs e)
+        {
+            string title = mimLists.SelectedItem.ToString();
+            title = string.Concat(title, ".mimm");
+            title = string.Concat('\\', title);
+            string filePath = string.Concat(dirPath, title);
+            string text = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
+            showMemo.Text = text;
+            fileTitle.Text = mimLists.SelectedItem.ToString();
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
