@@ -34,7 +34,7 @@ public class MemoActivity extends AppCompatActivity {
             br.close();
             et.setText(dyStr);
             et.setTextSize(20);
-            et.setTextColor(Color.WHITE);
+            et.setTextColor(Color.BLACK);
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
