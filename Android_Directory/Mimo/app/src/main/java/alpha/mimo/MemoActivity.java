@@ -13,14 +13,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MemoActivity extends AppCompatActivity {
 
     EditText et;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_memo);
 
         et = (EditText) findViewById(R.id.mimoText);
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             br.close();
             et.setText(dyStr);
             et.setTextSize(20);
-            et.setTextColor(Color.WHITE);
+            et.setTextColor(Color.BLACK);
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
