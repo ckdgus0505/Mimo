@@ -52,8 +52,10 @@
             // showMemo
             // 
             this.showMemo.Location = new System.Drawing.Point(291, 124);
+            this.showMemo.Multiline = true;
             this.showMemo.Name = "showMemo";
-            this.showMemo.Size = new System.Drawing.Size(941, 31);
+            this.showMemo.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.showMemo.Size = new System.Drawing.Size(941, 557);
             this.showMemo.TabIndex = 1;
             // 
             // btnOpen
