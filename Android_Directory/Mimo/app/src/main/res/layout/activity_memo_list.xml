@@ -9,71 +9,98 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="40dp">
+        android:orientation="vertical">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="300dp">
-        </ListView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/colorPrimaryDark">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="메모 목록"
+                android:textColor="#ffffff"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_marginTop="40dp">
 
-            <EditText
+            <ListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:hint="파일 이름"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
-                android:id="@+id/fileText"
-                android:background="@color/colorPrimaryDark"
-                />
+                android:layout_height="300dp">
+            </ListView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:orientation="vertical"
+                android:layout_marginTop="40dp">
 
-                <Button
-                    android:layout_width="100dp"
+                <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:hint="파일 이름"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/colorPrimaryDark"
-                    android:text="생성"
+                    android:padding="10dp"
                     android:textColor="#ffffff"
-                    android:textSize="20dp"
-                    android:textStyle="bold"/>
+                    android:textColorHint="#ffffff"
+                    android:id="@+id/fileText"
+                    android:background="@color/colorPrimaryDark"
+                    />
 
-                <Button
-                    android:layout_width="100dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/colorPrimaryDark"
-                    android:text="열기"
-                    android:textColor="#ffffff"
-                    android:textSize="20dp"
-                    android:textStyle="bold"/>
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
 
-                <Button
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/colorPrimaryDark"
-                    android:text="삭제"
-                    android:textColor="#ffffff"
-                    android:textSize="20dp"
-                    android:textStyle="bold"/>
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:text="생성"
+                        android:textColor="#ffffff"
+                        android:textSize="20dp"
+                        android:textStyle="bold"/>
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:text="열기"
+                        android:textColor="#ffffff"
+                        android:textSize="20dp"
+                        android:textStyle="bold"/>
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:text="삭제"
+                        android:textColor="#ffffff"
+                        android:textSize="20dp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
