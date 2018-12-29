@@ -47,10 +47,10 @@
             this.mimLists.Name = "mimLists";
             this.mimLists.Size = new System.Drawing.Size(225, 604);
             this.mimLists.TabIndex = 0;
-            this.mimLists.SelectedIndexChanged += new System.EventHandler(this.mimLists_SelectedIndexChanged);
             // 
             // showMemo
             // 
+            this.showMemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(244)))), ((int)(((byte)(195)))));
             this.showMemo.Location = new System.Drawing.Point(291, 124);
             this.showMemo.Multiline = true;
             this.showMemo.Name = "showMemo";
