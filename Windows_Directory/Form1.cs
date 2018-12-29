@@ -80,6 +80,8 @@ namespace Mimo
             catch (System.NullReferenceException err)
             {
                 MessageBox.Show("파일을 선택하세요");
+                showMemo.ResetText();
+                fileTitle.ResetText();
             }
 
 
