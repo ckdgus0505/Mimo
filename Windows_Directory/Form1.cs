@@ -14,7 +14,7 @@ namespace Mimo
 
     public partial class Form1 : Form
     {
-        string dirPath = @"C:\Users\ckdgu\Documents\GitHub\Mimo\mimms";
+        string dirPath = @".\..\..\..\mimms\";
         string filename;
 
         public Form1()
@@ -25,101 +25,133 @@ namespace Mimo
             btnSave.Click += BtnSave_Click;
             btnDelete.Click += BtnDelete_Click;
             btnOpen.Click += BtnOpen_Click;
-            fileTitle.Click += FileTitle_Click;
         }
 
         private void BtnOpen_Click(object sender, EventArgs e)
         {
-            string title = mimLists.SelectedItem.ToString();
-            title = string.Concat(title, ".mimm");
-            title = string.Concat('\\', title);
-            string filePath = string.Concat(dirPath, title);
-            string text = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
-            showMemo.Text = text;
-            fileTitle.Text = mimLists.SelectedItem.ToString();
+            string filePath, title;
+            try
+            {
+                title = mimLists.SelectedItem.ToString();
+                title = string.Concat(title, ".mimm");
+                title = string.Concat('\\', title);
+                filePath = string.Concat(dirPath, title);
+                string text = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
+                showMemo.Text = text;
+                fileTitle.Text = mimLists.SelectedItem.ToString();
+            }
+            catch (System.NullReferenceException err)
+            {
+                MessageBox.Show("파일을 선택하세요");
+                return;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.ToString());
+                return;
+            }
+
+            
+
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            string title = mimLists.SelectedItem.ToString();
-            title = string.Concat(title, ".mimm");
-            title = string.Concat('\\', title);
-            string filePath = string.Concat(dirPath, title);
-            if (MessageBox.Show("선택한 메모를 삭제하시겠습니까?", "메모삭제",MessageBoxButtons.YesNo)==DialogResult.Yes)
+            string title, filePath;
+            try
             {
-                if(System.IO.File.Exists(filePath))
+                title = mimLists.SelectedItem.ToString();
+                title = string.Concat(title, ".mimm");
+                title = string.Concat('\\', title);
+                filePath = string.Concat(dirPath, title);
+                if (MessageBox.Show("선택한 메모를 삭제하시겠습니까?", "메모삭제", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    try
+                    if (System.IO.File.Exists(filePath))
                     {
-                        System.IO.File.Delete(filePath);
-                    }
-                    catch (System.IO.IOException err)
-                    {
-                        MessageBox.Show(err.ToString());
-                        return;
+                        try
+                        {
+                            System.IO.File.Delete(filePath);
+                            mimLists.Items.Remove(mimLists.SelectedItem);
+                            showMemo.ResetText();
+                            fileTitle.ResetText();
+                        }
+                        catch (System.IO.IOException err)
+                        {
+                            return;
+                        }
                     }
                 }
-
-
-
-
-                mimLists.Items.Remove(mimLists.SelectedItem);
             }
-        }
-
-        private void FileTitle_Click(object sender, EventArgs e)
-        {
-            if (fileTitle.Text == "")
+            catch (System.NullReferenceException err)
             {
-               // label1.Text("");
+                MessageBox.Show("파일을 선택하세요");
+                showMemo.ResetText();
+                fileTitle.ResetText();
             }
         }
+
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            string title = mimLists.SelectedItem.ToString();
-            title = string.Concat(title, ".mimm");
-            title = string.Concat('\\', title);
-            string filePath = string.Concat(dirPath, title);
+
             try
             {
+                string title = mimLists.SelectedItem.ToString();
+                title = string.Concat(title, ".mimm");
+                title = string.Concat('\\', title);
+                string filePath = string.Concat(dirPath, title);
                 if (System.IO.File.Exists(filePath))
                 {
                     System.IO.File.WriteAllText(filePath, showMemo.Text.ToString());
                 }
                 else
                 {
-                    MessageBox.Show("");
-                    System.IO.File.Create(filePath);
-
+                    MessageBox.Show("파일을 새로 만듭니다");
+                    System.IO.File.WriteAllText(filePath, showMemo.Text.ToString());
                 }
             }
-            catch (Exception err)
+            catch (System.NullReferenceException err)
             {
-                MessageBox.Show(err.Message.ToString());
+                MessageBox.Show("파일을 선택하세요");
             }
+            btnSync.PerformClick();
         }
 
         private void BtnNew_Click(object sender, EventArgs e)
         {
             string title = fileTitle.Text;
-            title = string.Concat(title, ".mimm");
-            title = string.Concat('\\', title);
-            string filePath = string.Concat(dirPath, title);
-            try
+            if (title != "")
             {
-                System.IO.File.Create(filePath);
+                title = string.Concat(title, ".mimm");
+                title = string.Concat('\\', title);
+                string filePath = string.Concat(dirPath, title);
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        MessageBox.Show("이미 같은 이름의 파일이 있습니다.");
+                    }
+                    else
+                    {
+                        System.IO.File.WriteAllText(filePath, showMemo.Text.ToString());
+                    }
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.ToString());
+                }
             }
-            catch (Exception err)
+            else
             {
-                MessageBox.Show(err.Message.ToString());
+                MessageBox.Show("파일명을 입력하세요");
             }
+            btnSync.PerformClick();
         }
 
         private void BtnSync_Click(object sender, EventArgs e)
         {
             mimLists.Items.Clear();
-            dirPath = @"C:\Users\ckdgu\Documents\GitHub\Mimo\mimms";
+            dirPath = @".\..\..\..\mimms\";
             if (System.IO.Directory.Exists(@dirPath))
             {
                 System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@dirPath);
@@ -132,11 +164,6 @@ namespace Mimo
                     }
                 }
             }
-        }
-
-        private void mimLists_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

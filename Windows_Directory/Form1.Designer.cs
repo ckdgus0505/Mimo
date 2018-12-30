@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.mimLists = new System.Windows.Forms.ListBox();
             this.showMemo = new System.Windows.Forms.TextBox();
             this.btnOpen = new System.Windows.Forms.Button();
@@ -41,20 +42,21 @@
             // 
             // mimLists
             // 
+            this.mimLists.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(244)))), ((int)(((byte)(195)))));
             this.mimLists.FormattingEnabled = true;
             this.mimLists.ItemHeight = 25;
             this.mimLists.Location = new System.Drawing.Point(34, 77);
             this.mimLists.Name = "mimLists";
             this.mimLists.Size = new System.Drawing.Size(225, 604);
             this.mimLists.TabIndex = 0;
-            this.mimLists.SelectedIndexChanged += new System.EventHandler(this.mimLists_SelectedIndexChanged);
             // 
             // showMemo
             // 
+            this.showMemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(244)))), ((int)(((byte)(195)))));
             this.showMemo.Location = new System.Drawing.Point(291, 124);
             this.showMemo.Multiline = true;
             this.showMemo.Name = "showMemo";
-            this.showMemo.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.showMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.showMemo.Size = new System.Drawing.Size(941, 557);
             this.showMemo.TabIndex = 1;
             // 
@@ -115,7 +117,7 @@
             // 
             // fileTitle
             // 
-            this.fileTitle.BackColor = System.Drawing.Color.White;
+            this.fileTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(244)))), ((int)(((byte)(195)))));
             this.fileTitle.Location = new System.Drawing.Point(291, 77);
             this.fileTitle.Name = "fileTitle";
             this.fileTitle.Size = new System.Drawing.Size(941, 31);
@@ -149,6 +151,7 @@
             this.Controls.Add(this.fileTitle);
             this.Controls.Add(this.showMemo);
             this.Controls.Add(this.mimLists);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Mimo";
             this.ResumeLayout(false);
