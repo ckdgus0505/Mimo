@@ -14,7 +14,7 @@ namespace Mimo
 
     public partial class Form1 : Form
     {
-        string dirPath = @"C:\Users\ckdgu\Documents\GitHub\Mimo\mimms";
+        string dirPath = @".\..\..\..\mimms\";
         string filename;
 
         public Form1()
@@ -43,6 +43,11 @@ namespace Mimo
             catch (System.NullReferenceException err)
             {
                 MessageBox.Show("파일을 선택하세요");
+                return;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.ToString());
                 return;
             }
 
@@ -83,8 +88,6 @@ namespace Mimo
                 showMemo.ResetText();
                 fileTitle.ResetText();
             }
-
-
         }
 
 
@@ -148,7 +151,7 @@ namespace Mimo
         private void BtnSync_Click(object sender, EventArgs e)
         {
             mimLists.Items.Clear();
-            dirPath = @"C:\Users\ckdgu\Documents\GitHub\Mimo\mimms";
+            dirPath = @".\..\..\..\mimms\";
             if (System.IO.Directory.Exists(@dirPath))
             {
                 System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@dirPath);
