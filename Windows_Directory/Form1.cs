@@ -25,6 +25,40 @@ namespace Mimo
             btnSave.Click += BtnSave_Click;
             btnDelete.Click += BtnDelete_Click;
             btnOpen.Click += BtnOpen_Click;
+            btnConvert.Click += BtnConvert_Click;
+        }
+
+        private void BtnConvert_Click(object sender, EventArgs e)
+        {
+            String txtFilePath = null;
+            String txtFileName = null;
+            OpenFileDialog pFileDlg = new OpenFileDialog();
+            pFileDlg.InitialDirectory = "C:\\";
+            if(pFileDlg.ShowDialog() == DialogResult.OK)
+            {
+                txtFilePath = pFileDlg.FileName;
+                txtFileName = txtFilePath.Split('\\')[txtFilePath.Split('\\').Length - 1];
+            }
+            try
+            {
+                if (txtFileName.Split('.')[1] == "txt")
+                {
+                    FileInfo file = new FileInfo(txtFilePath);
+                    file.CopyTo(dirPath + txtFileName.Split('.')[0] + ".mimm");
+                    MessageBox.Show("성공적으로 변환되었습니다");
+                }
+                else
+                {
+                    MessageBox.Show(".txt 파일을 선택해주세요");
+
+                }
+            }
+            catch (System.IO.IOException err)
+            {
+                MessageBox.Show("동일한 이름의 파일이이미 있습니다");
+            }
+
+            btnSync.PerformClick();
         }
 
         private void BtnOpen_Click(object sender, EventArgs e)
@@ -74,6 +108,7 @@ namespace Mimo
                             mimLists.Items.Remove(mimLists.SelectedItem);
                             showMemo.ResetText();
                             fileTitle.ResetText();
+                            MessageBox.Show("성공적으로 삭제되었습니다");
                         }
                         catch (System.IO.IOException err)
                         {

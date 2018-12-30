@@ -38,6 +38,7 @@
             this.btnNew = new System.Windows.Forms.Button();
             this.fileTitle = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnConvert = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mimLists
@@ -86,9 +87,9 @@
             // 
             this.btnSync.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(68)))), ((int)(((byte)(115)))));
             this.btnSync.ForeColor = System.Drawing.Color.White;
-            this.btnSync.Location = new System.Drawing.Point(1020, -4);
+            this.btnSync.Location = new System.Drawing.Point(1137, -4);
             this.btnSync.Name = "btnSync";
-            this.btnSync.Size = new System.Drawing.Size(259, 62);
+            this.btnSync.Size = new System.Drawing.Size(136, 62);
             this.btnSync.TabIndex = 2;
             this.btnSync.Text = "SYNC";
             this.btnSync.UseVisualStyleBackColor = false;
@@ -136,6 +137,17 @@
             this.label1.Text = "제목을 입력하세요";
             this.label1.Visible = false;
             // 
+            // btnConvert
+            // 
+            this.btnConvert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(68)))), ((int)(((byte)(115)))));
+            this.btnConvert.ForeColor = System.Drawing.Color.White;
+            this.btnConvert.Location = new System.Drawing.Point(1007, -4);
+            this.btnConvert.Name = "btnConvert";
+            this.btnConvert.Size = new System.Drawing.Size(136, 62);
+            this.btnConvert.TabIndex = 2;
+            this.btnConvert.Text = "CONVERT";
+            this.btnConvert.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -143,6 +155,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(244)))), ((int)(((byte)(195)))));
             this.ClientSize = new System.Drawing.Size(1271, 713);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnConvert);
             this.Controls.Add(this.btnSync);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnNew);
@@ -170,6 +183,7 @@
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.TextBox fileTitle;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnConvert;
     }
 }
 
