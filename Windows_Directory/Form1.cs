@@ -38,25 +38,26 @@ namespace Mimo
             {
                 txtFilePath = pFileDlg.FileName;
                 txtFileName = txtFilePath.Split('\\')[txtFilePath.Split('\\').Length - 1];
-            }
-            try
-            {
-                if (txtFileName.Split('.')[1] == "txt")
+                try
                 {
-                    FileInfo file = new FileInfo(txtFilePath);
-                    file.CopyTo(dirPath + txtFileName.Split('.')[0] + ".mimm");
-                    MessageBox.Show("성공적으로 변환되었습니다");
-                }
-                else
-                {
-                    MessageBox.Show(".txt 파일을 선택해주세요");
+                    if (txtFileName.Split('.')[1] == "txt")
+                    {
+                        FileInfo file = new FileInfo(txtFilePath);
+                        file.CopyTo(dirPath + txtFileName.Split('.')[0] + ".mimm");
+                        MessageBox.Show("성공적으로 변환되었습니다");
+                    }
+                    else
+                    {
+                        MessageBox.Show(".txt 파일을 선택해주세요");
 
+                    }
+                }
+                catch (System.IO.IOException err)
+                {
+                    MessageBox.Show("동일한 이름의 파일이이미 있습니다");
                 }
             }
-            catch (System.IO.IOException err)
-            {
-                MessageBox.Show("동일한 이름의 파일이이미 있습니다");
-            }
+
 
             btnSync.PerformClick();
         }
