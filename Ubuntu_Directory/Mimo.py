@@ -30,6 +30,7 @@ def on_sync_btn():
 
 root.title("Mimo")
 root.resizable(False, False)
+root.iconbitmap('..\images\icon.ico')
 
 
 # ==== Frame List ====
