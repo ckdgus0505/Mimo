@@ -22,13 +22,16 @@ namespace Mimo
         public Form1()
         {
             InitializeComponent();
-            Application.Idle += Application_Idle;
         }
 
-        private void Application_Idle(object sender, EventArgs e)
+        private void BtnHelp_Click(object sender, EventArgs e)
         {
-            Application.Idle -= Application_Idle;
-            btnSync.PerformClick();
+            string filePath;
+            filePath = string.Concat(dirPath, "\\what is Mimo.mimm");
+            string text = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
+            showMemo.Text = text;
+            fileTitle.Text = "what is Mimo";
+            return;
         }
 
         private void BtnConvert_Click(object sender, EventArgs e)
@@ -202,6 +205,11 @@ namespace Mimo
                     }
                 }
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            btnSync.PerformClick();
         }
     }
 }

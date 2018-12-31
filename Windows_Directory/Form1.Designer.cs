@@ -39,6 +39,7 @@
             this.btnDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.btnConvert = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSync = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,10 +50,10 @@
             this.mimLists.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(244)))), ((int)(((byte)(195)))));
             this.mimLists.FormattingEnabled = true;
             this.mimLists.ItemHeight = 25;
-            this.mimLists.Location = new System.Drawing.Point(44, 84);
+            this.mimLists.Location = new System.Drawing.Point(40, 80);
             this.mimLists.Margin = new System.Windows.Forms.Padding(40, 40, 20, 40);
             this.mimLists.Name = "mimLists";
-            this.mimLists.Size = new System.Drawing.Size(224, 579);
+            this.mimLists.Size = new System.Drawing.Size(224, 604);
             this.mimLists.TabIndex = 0;
             this.mimLists.DoubleClick += new System.EventHandler(this.BtnOpen_Click);
             // 
@@ -62,12 +63,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.showMemo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(244)))), ((int)(((byte)(195)))));
-            this.showMemo.Location = new System.Drawing.Point(308, 155);
+            this.showMemo.Location = new System.Drawing.Point(304, 151);
             this.showMemo.Margin = new System.Windows.Forms.Padding(20, 20, 40, 40);
             this.showMemo.Multiline = true;
             this.showMemo.Name = "showMemo";
             this.showMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.showMemo.Size = new System.Drawing.Size(920, 514);
+            this.showMemo.Size = new System.Drawing.Size(928, 522);
             this.showMemo.TabIndex = 1;
             // 
             // fileTitle
@@ -76,10 +77,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fileTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(244)))), ((int)(((byte)(195)))));
-            this.fileTitle.Location = new System.Drawing.Point(308, 84);
+            this.fileTitle.Location = new System.Drawing.Point(304, 80);
             this.fileTitle.Margin = new System.Windows.Forms.Padding(20, 40, 40, 20);
             this.fileTitle.Name = "fileTitle";
-            this.fileTitle.Size = new System.Drawing.Size(920, 31);
+            this.fileTitle.Size = new System.Drawing.Size(928, 31);
             this.fileTitle.TabIndex = 1;
             this.fileTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -93,10 +94,11 @@
             this.btnSave,
             this.btnDelete,
             this.btnConvert,
-            this.btnSync});
-            this.menuStrip1.Location = new System.Drawing.Point(4, 4);
+            this.btnSync,
+            this.btnHelp});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1264, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(1272, 40);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -104,7 +106,8 @@
             // 
             this.btnOpen.ForeColor = System.Drawing.Color.White;
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(90, 36);
+            this.btnOpen.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
+            this.btnOpen.Size = new System.Drawing.Size(132, 36);
             this.btnOpen.Text = "OPEN";
             this.btnOpen.Click += new System.EventHandler(this.BtnOpen_Click);
             // 
@@ -112,7 +115,8 @@
             // 
             this.btnNew.ForeColor = System.Drawing.Color.White;
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(80, 36);
+            this.btnNew.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
+            this.btnNew.Size = new System.Drawing.Size(122, 36);
             this.btnNew.Text = "NEW";
             this.btnNew.Click += new System.EventHandler(this.BtnNew_Click);
             // 
@@ -120,7 +124,8 @@
             // 
             this.btnSave.ForeColor = System.Drawing.Color.White;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(83, 36);
+            this.btnSave.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
+            this.btnSave.Size = new System.Drawing.Size(125, 36);
             this.btnSave.Text = "SAVE";
             this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
@@ -128,7 +133,8 @@
             // 
             this.btnDelete.ForeColor = System.Drawing.Color.White;
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(105, 36);
+            this.btnDelete.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
+            this.btnDelete.Size = new System.Drawing.Size(147, 36);
             this.btnDelete.Text = "DELETE";
             this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
@@ -136,7 +142,8 @@
             // 
             this.btnConvert.ForeColor = System.Drawing.Color.White;
             this.btnConvert.Name = "btnConvert";
-            this.btnConvert.Size = new System.Drawing.Size(134, 36);
+            this.btnConvert.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
+            this.btnConvert.Size = new System.Drawing.Size(176, 36);
             this.btnConvert.Text = "CONVERT";
             this.btnConvert.Click += new System.EventHandler(this.BtnConvert_Click);
             // 
@@ -144,9 +151,19 @@
             // 
             this.btnSync.ForeColor = System.Drawing.Color.White;
             this.btnSync.Name = "btnSync";
-            this.btnSync.Size = new System.Drawing.Size(87, 36);
+            this.btnSync.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
+            this.btnSync.Size = new System.Drawing.Size(129, 36);
             this.btnSync.Text = "SYNC";
             this.btnSync.Click += new System.EventHandler(this.BtnSync_Click);
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnHelp.ForeColor = System.Drawing.Color.White;
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(38, 36);
+            this.btnHelp.Text = "?";
+            this.btnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
             // 
             // Form1
             // 
@@ -162,8 +179,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
-            this.Padding = new System.Windows.Forms.Padding(4);
             this.Text = "Mimo";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -183,6 +200,8 @@
         private System.Windows.Forms.ToolStripMenuItem btnDelete;
         private System.Windows.Forms.ToolStripMenuItem btnConvert;
         private System.Windows.Forms.ToolStripMenuItem btnSync;
+        private System.Windows.Forms.ToolStripMenuItem btnwhatisit;
+        private System.Windows.Forms.ToolStripMenuItem btnHelp;
     }
 }
 
