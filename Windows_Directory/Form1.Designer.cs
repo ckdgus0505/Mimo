@@ -50,6 +50,7 @@
             this.mimLists.Name = "mimLists";
             this.mimLists.Size = new System.Drawing.Size(225, 604);
             this.mimLists.TabIndex = 0;
+            this.mimLists.DoubleClick += new System.EventHandler(this.BtnOpen_Click);
             // 
             // showMemo
             // 

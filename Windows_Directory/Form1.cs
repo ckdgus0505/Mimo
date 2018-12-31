@@ -17,6 +17,8 @@ namespace Mimo
         string dirPath = @".\..\..\..\mimms\";
         string filename;
 
+      
+
         public Form1()
         {
             InitializeComponent();
@@ -26,6 +28,14 @@ namespace Mimo
             btnDelete.Click += BtnDelete_Click;
             btnOpen.Click += BtnOpen_Click;
             btnConvert.Click += BtnConvert_Click;
+            Application.Idle += Application_Idle;
+        }
+
+        private void Application_Idle(object sender, EventArgs e)
+        {
+            Application.Idle -= Application_Idle;
+
+            btnSync.PerformClick();
         }
 
         private void BtnConvert_Click(object sender, EventArgs e)
@@ -201,5 +211,6 @@ namespace Mimo
                 }
             }
         }
+
     }
 }
