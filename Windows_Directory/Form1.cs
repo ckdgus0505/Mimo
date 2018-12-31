@@ -17,24 +17,17 @@ namespace Mimo
         string dirPath = @".\..\..\..\mimms\";
         string filename;
 
-      
+
 
         public Form1()
         {
             InitializeComponent();
-            btnSync.Click += BtnSync_Click;
-            btnNew.Click += BtnNew_Click;
-            btnSave.Click += BtnSave_Click;
-            btnDelete.Click += BtnDelete_Click;
-            btnOpen.Click += BtnOpen_Click;
-            btnConvert.Click += BtnConvert_Click;
             Application.Idle += Application_Idle;
         }
 
         private void Application_Idle(object sender, EventArgs e)
         {
             Application.Idle -= Application_Idle;
-
             btnSync.PerformClick();
         }
 
@@ -44,7 +37,7 @@ namespace Mimo
             String txtFileName = null;
             OpenFileDialog pFileDlg = new OpenFileDialog();
             pFileDlg.InitialDirectory = "C:\\";
-            if(pFileDlg.ShowDialog() == DialogResult.OK)
+            if (pFileDlg.ShowDialog() == DialogResult.OK)
             {
                 txtFilePath = pFileDlg.FileName;
                 txtFileName = txtFilePath.Split('\\')[txtFilePath.Split('\\').Length - 1];
@@ -67,7 +60,6 @@ namespace Mimo
                     MessageBox.Show("동일한 이름의 파일이이미 있습니다");
                 }
             }
-
 
             btnSync.PerformClick();
         }
@@ -96,7 +88,7 @@ namespace Mimo
                 return;
             }
 
-            
+
 
         }
 
@@ -211,6 +203,5 @@ namespace Mimo
                 }
             }
         }
-
     }
 }
