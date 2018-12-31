@@ -34,7 +34,7 @@ public class MemoActivity extends AppCompatActivity {
         try {
             String dyStr = "";
 
-            BufferedReader br = new BufferedReader(new FileReader(getFilesDir() + FileName + ".mimm"));
+            BufferedReader br = new BufferedReader(new FileReader(getFilesDir() + FileName));
             String str = null;
             while ((str = br.readLine()) != null)
                 dyStr += str + "\n";

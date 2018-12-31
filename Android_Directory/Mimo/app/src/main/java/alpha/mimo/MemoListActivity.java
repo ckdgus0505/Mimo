@@ -1,7 +1,9 @@
 package alpha.mimo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +28,9 @@ public class MemoListActivity extends AppCompatActivity {
     ArrayList<String> items;
     ArrayAdapter<String> adapter;
     ListView memoListView;
+    String fileName;
+    File directory;
+    File[] files;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +39,19 @@ public class MemoListActivity extends AppCompatActivity {
 
         try{
             items = new ArrayList<String>();
-
             adapter = new ArrayAdapter<String>(MemoListActivity.this, android.R.layout.simple_list_item_single_choice, items);
-
             memoListView = (ListView) findViewById(R.id.MemoListView);
             memoListView.setAdapter(adapter);
             memoListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            File directory2 = getFilesDir().getParentFile();
-
-            File[] files2 = directory2.listFiles();
-            Log.d("Files2", "Size: "+ files2.length);
-            for (int i = 0; i < files2.length; i++)
-            {
-                String str = files2[i].getName();
-                if(str.contains(".mimm"))
-                    items.add(files2[i].getName());
+            directory = getFilesDir().getParentFile();
+            files = directory.listFiles();
+            Log.d("Files", "Size: "+ files.length);
+            for (int i = 0; i < files.length; i++) {
+                String str = files[i].getName();
+                if (str.contains(".mimm")) {
+                    str = str.substring(5);
+                    items.add(str);
+                }
                 adapter.notifyDataSetChanged();
             }
         }catch(Exception e){
@@ -59,6 +62,7 @@ public class MemoListActivity extends AppCompatActivity {
         memoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
+                fileName = items.get(position).toString();
                 Toast.makeText(getApplicationContext(),items.get(position).toString(),Toast.LENGTH_LONG).show();
             }
         });
@@ -66,25 +70,31 @@ public class MemoListActivity extends AppCompatActivity {
 
     public void onButtonNew(View view)
     {
-        // ==== ListView 수정 부분 ====
-        EditText ed = (EditText) findViewById(R.id.fileText);
-        String text = ed.getText().toString();
 
-        if (!text.isEmpty()) {
-            items.add(text);
-            ed.setText("");
-            adapter.notifyDataSetChanged();
-        }
+
+        // ==== ListView 수정 부분 ====
+//        EditText ed = (EditText) findViewById(R.id.fileText);
+//        String text = ed.getText().toString();
+//
+//        if (!text.isEmpty()) {
+//            items.add(text);
+//            ed.setText("");
+//            adapter.notifyDataSetChanged();
+//        }
 
         // ==== mimm 확장자 수정 부분 ====
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(getFilesDir() + text + ".mimm", false));
-            bw.write("");
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+//        try {
+//            BufferedWriter bw = new BufferedWriter(new FileWriter(getFilesDir() + text + ".mimm", false));
+//            bw.write("");
+//            bw.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+
+        Intent MemoIntent = new Intent(this, NewActivity.class);
+        //MemoIntent.putExtra("fileName", fileName);
+        startActivityForResult(MemoIntent, 101);
     }
 
     public void onButtonOpen(View view)
@@ -95,7 +105,7 @@ public class MemoListActivity extends AppCompatActivity {
 
             // ==== 화면 전환 ====
             Intent MemoIntent = new Intent(this, MemoActivity.class);
-            MemoIntent.putExtra("file", items.get(pos).toString());
+            MemoIntent.putExtra("file", fileName);
             startActivity(MemoIntent);
         }
 
@@ -115,5 +125,35 @@ public class MemoListActivity extends AppCompatActivity {
         }
 
         // 파일 삭제 하는 부분 추가해야 함
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);/// result code sms ok ...
+        if(requestCode == 101){
+            try{
+                items = new ArrayList<String>();
+                adapter = new ArrayAdapter<String>(MemoListActivity.this, android.R.layout.simple_list_item_single_choice, items);
+                memoListView = (ListView) findViewById(R.id.MemoListView);
+                memoListView.setAdapter(adapter);
+                memoListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                directory = getFilesDir().getParentFile();
+                files = directory.listFiles();
+                Log.d("Files", "Size: "+ files.length);
+                for (int i = 0; i < files.length; i++) {
+                    String str = files[i].getName();
+                    if (str.contains(".mimm")){
+                        str = str.substring(5);
+                        items.add(str);
+                    }
+
+                    adapter.notifyDataSetChanged();
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            //String name =data.getStringExtra("name"); // like hash table...10
+            //Toast.makeText(getApplicationContext(), "메뉴화면으로부터 응답:"+name, Toast.LENGTH_LONG).show();
+        }
     }
 }
