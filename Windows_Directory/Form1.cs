@@ -118,7 +118,7 @@ namespace Mimo
                         }
                         catch (System.IO.IOException err)
                         {
-                            return;
+                            btnNew.PerformClick();
                         }
                     }
                 }
@@ -137,25 +137,43 @@ namespace Mimo
 
             try
             {
-                string title = mimLists.SelectedItem.ToString();
-                title = string.Concat(title, ".mimm");
-                title = string.Concat('\\', title);
-                string filePath = string.Concat(dirPath, title);
-                if (System.IO.File.Exists(filePath))
+                if (mimLists.SelectedItem != null)
                 {
-                    System.IO.File.WriteAllText(filePath, showMemo.Text.ToString());
+                    if (mimLists.SelectedItem.ToString() == fileTitle.ToString())
+                    {
+                        string title = mimLists.SelectedItem.ToString();
+                        title = string.Concat(title, ".mimm");
+                        title = string.Concat('\\', title);
+                        string filePath = string.Concat(dirPath, title);
+
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            System.IO.File.WriteAllText(filePath, showMemo.Text.ToString());
+                        }
+                    }
+                    else
+                    {
+                        string title = mimLists.SelectedItem.ToString();
+                        title = string.Concat(title, ".mimm");
+                        title = string.Concat('\\', title);
+                        string filePath = string.Concat(dirPath, title);
+                        System.IO.File.Delete(filePath);
+                        mimLists.Items.Remove(mimLists.SelectedItem);
+                        btnNew.PerformClick();
+
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("파일을 새로 만듭니다");
-                    System.IO.File.WriteAllText(filePath, showMemo.Text.ToString());
+                    btnNew.PerformClick();
                 }
             }
             catch (System.NullReferenceException err)
             {
+                
                 MessageBox.Show("파일을 선택하세요");
             }
-            btnSync.PerformClick();
+            
         }
 
         private void BtnNew_Click(object sender, EventArgs e)
