@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -14,15 +15,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class MemoActivity extends AppCompatActivity {
-
+public class OpenActivity extends AppCompatActivity {
+    TextView title;
     String FileName;
     EditText et;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_memo);
+        setContentView(R.layout.activity_open);
 
         // ==== List에서 File Name 받아오기 ====
         Intent ListIntent = getIntent();
@@ -30,6 +31,8 @@ public class MemoActivity extends AppCompatActivity {
 
 
         et = (EditText) findViewById(R.id.mimoText);
+        title = (TextView)findViewById(R.id.title);
+        title.setText(FileName);
 
         try {
             String dyStr = "";
@@ -52,7 +55,7 @@ public class MemoActivity extends AppCompatActivity {
         try {
             String dyStr = "";
 
-            BufferedWriter bw = new BufferedWriter(new FileWriter(getFilesDir() + FileName + ".mimm", false));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(getFilesDir() + FileName, false));
             dyStr = String.valueOf(et.getText());
             bw.write(dyStr);
             bw.close();
