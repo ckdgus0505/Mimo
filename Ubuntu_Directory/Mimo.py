@@ -39,7 +39,10 @@ class Main:
             on_sync_btn()
 
         def on_save_btn():
-            print("save button")
+            f = open("..\mimms\\" + memo_title_ety.get() + ".mimm", "w")
+            f.write(memo_txt.get(0.0, 100.0))  # 0번째 줄 부터 100번째 줄 까지
+            f.close()
+            on_sync_btn()
 
         def on_delete_btn():
             print("delete button")
