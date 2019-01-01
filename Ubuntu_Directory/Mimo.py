@@ -1,8 +1,14 @@
-from tkinter import *
+# coding=utf-8
+from tkinter import *   # Python GUI를 만들기 위함
+import glob             # 디렉터리에 있는 파일들을 리스트로 만들기 위함
 
 
 class Main:
     def __init__(self):
+        # 디렉터리에 있는 파일들 가져오기
+        mimms = glob.glob("..\mimms\*.mimm")
+
+        # GUI 시작
         root = Tk()
 
         # ==== Button Function ====
@@ -59,8 +65,10 @@ class Main:
 
         # ==== List Frame ====
         memo_list_lsb = Listbox(list_frm, selectmod="single")
-        memo_list_lsb.insert(0, "Test1")
-        memo_list_lsb.insert(1, "Test2")
+
+        for i in range(len(mimms)):
+            memo_list_lsb.insert(i, mimms[i][9:-5])     # 경로 및 확장자 제거
+
         memo_list_lsb.grid(row=1, column=1)
 
         # ==== Main Frame ====
