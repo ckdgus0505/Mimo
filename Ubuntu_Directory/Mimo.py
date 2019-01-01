@@ -5,9 +5,6 @@ import glob             # 디렉터리에 있는 파일들을 리스트로 만�
 
 class Main:
     def __init__(self):
-        # 디렉터리에 있는 파일들 가져오기
-        mimms = glob.glob("..\mimms\*.mimm")
-
         # GUI 시작
         root = Tk()
 
@@ -28,7 +25,11 @@ class Main:
             print("convert button")
 
         def on_sync_btn():
-            print("sync button")
+            # 디렉터리에 있는 파일들 가져오기
+            memo_list_lsb.delete(0, memo_list_lsb.size())
+            mimms = glob.glob("..\mimms\*.mimm")
+            for i in range(len(mimms)):
+                memo_list_lsb.insert(i, mimms[i][9:-5])  # 경로 및 확장자 제거
 
         root.title("Mimo")
         root.resizable(False, False)
@@ -65,11 +66,8 @@ class Main:
 
         # ==== List Frame ====
         memo_list_lsb = Listbox(list_frm, selectmod="single")
-
-        for i in range(len(mimms)):
-            memo_list_lsb.insert(i, mimms[i][9:-5])     # 경로 및 확장자 제거
-
         memo_list_lsb.grid(row=1, column=1)
+        on_sync_btn()
 
         # ==== Main Frame ====
         memo_title_ety = Entry(main_frm, width=80)
