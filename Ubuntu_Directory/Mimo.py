@@ -13,7 +13,10 @@ class Main:
             print("open button")
 
         def on_new_btn():
-            print("new button")
+            f = open("..\mimms\\" + memo_title_ety.get() + ".mimm", "w")
+            f.write(memo_txt.get(0.0, 100.0))   # 0번째 줄 부터 100번째 줄 까지
+            f.close
+            on_sync_btn()
 
         def on_save_btn():
             print("save button")
