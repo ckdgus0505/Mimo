@@ -10,7 +10,27 @@ class Main:
 
         # ==== Button Function ====
         def on_open_btn():
-            print("open button")
+            # 처음에 삭제 해주고 시작
+            memo_title_ety.delete(0, 100)
+            memo_txt.delete(0.0, 100.0)
+
+            index = str(memo_list_lsb.curselection())[1:-2]
+            file_name = str(memo_list_lsb.get(index, index))[2:-3]
+
+            # Ety 부분
+            memo_title_ety.insert(0, file_name)
+
+            # Txt 부분
+            f = open("..\mimms\\" + file_name + ".mimm", "r")
+            i = float(0.0)
+            while True:
+                line = f.readline()
+                if not line: break
+                memo_txt.insert(str(i), line)
+                i += float(1.0)
+            f.close()
+
+            on_sync_btn()
 
         def on_new_btn():
             f = open("..\mimms\\" + memo_title_ety.get() + ".mimm", "w")
