@@ -76,7 +76,7 @@ namespace Mimo
                 title = string.Concat(title, ".mimm");
                 title = string.Concat('\\', title);
                 filePath = string.Concat(dirPath, title);
-                string text = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
+                string text = System.IO.File.ReadAllText(filePath, Encoding.Unicode);
                 showMemo.Text = text;
                 fileTitle.Text = mimLists.SelectedItem.ToString();
             }
