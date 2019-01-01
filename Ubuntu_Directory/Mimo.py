@@ -1,6 +1,7 @@
 # coding=utf-8
 from tkinter import *   # Python GUI를 만들기 위함
 import glob             # 디렉터리에 있는 파일들을 리스트로 만들기 위함
+import os               # 파일 삭제를 하기 위함
 
 
 class Main:
@@ -45,7 +46,10 @@ class Main:
             on_sync_btn()
 
         def on_delete_btn():
-            print("delete button")
+            index = str(memo_list_lsb.curselection())[1:-2]
+            file_name = str(memo_list_lsb.get(index, index))[2:-3]
+            os.remove("..\mimms\\" + file_name + ".mimm")
+            on_sync_btn()
 
         def on_convert_btn():
             print("convert button")
