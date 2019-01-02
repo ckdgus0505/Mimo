@@ -910,3 +910,4 @@ $RECYCLE.BIN/
 # BeatPulse healthcheck temp database
 
 # End of https://www.gitignore.io/api/qt,java,python,csharp,windows,pycharm,visualstudio,androidstudio
+Socket_Server/port
