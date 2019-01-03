@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     File directory;
     File[] files;
     File objectFile;
+    Socket sock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +36,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
                 fileName = items.get(position).toString();
-
                 Toast.makeText(getApplicationContext(),items.get(position).toString(),Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    public void onButtonConnect(View view)
+    {
+        Log.d("myerror", "result:");
+        try{
+            Log.d("myerror", "result:1");
+            sock = new Socket("58.228.40.209", 1154);
+            Log.d("myerror", "result:2");
+            boolean tf = sock.isConnected();
+            Log.d("myerror", "result:3"+tf);
+            Toast.makeText(this, "result : " + tf, Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+            Log.d("myerror", "result:-1");
+            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
     public void onButtonNew(View view)
     {
         Intent MemoIntent = new Intent(this, NewActivity.class);
