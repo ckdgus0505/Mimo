@@ -20,5 +20,5 @@ socket.listen(5)
 while True:
     client, addr = socket.accept()
     print('Conn : ', addr)
-    client.send("test")
+    client.send("test".encode())
     client.close()
