@@ -19,8 +19,8 @@ public class JavaServerSocket {
 	public static void main(String[] args) {
 		
 		try {
-			ServerSocket server = new ServerSocket(11001);
-			System.out.println("서버 소켓이 만들어졌습니다. 포트 : 11001");
+			ServerSocket server = new ServerSocket(1154);
+			System.out.println("서버 소켓이 만들어졌습니다. 포트 : 1154");
 			
 			while(true) {
 				Socket aSocket = server.accept();
