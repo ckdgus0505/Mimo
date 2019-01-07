@@ -1,9 +1,8 @@
-# File : server.py
-# Brief : 라즈베리파이에서 실행 시키는 파일
+import socketserver
+import os
+from os.path import exists
 
-import socket   # 소켓 모듈
 
-# port 번호를 가져오는 함수
 def get_port():
     file = open("port", "r")
     port_number = file.readline()
@@ -11,14 +10,81 @@ def get_port():
     return int(port_number)
 
 
-socket = socket.socket()
-host = ''
-port = get_port()
-socket.bind((host, port))
-socket.listen(5)
+HOST = ''
+PORT = get_port()
 
-while True:
-    client, addr = socket.accept()
-    print('Conn : ', addr)
-    client.send("test".encode())
-    client.close()
+
+class MyTcpHandler(socketserver.BaseRequestHandler):
+    def handle(self):
+        print('[%s] 연결됨' % self.client_address[0])
+
+        service_number = self.request.recv(1024);
+        if (service_number.decode() == 'a'):
+            Server2Client(self)
+        elif (service_number.decode() == 'b'):
+            Client2Server(self)
+
+
+# 1,서버 -> 클라이언트 파일 전송 모듈
+def Server2Client(self):
+    data_transferred = 0
+    filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+    filename = filename.decode()  # 파일이름 이진 바이트 스트림 데이터를 일반 문자열로 변환
+
+    if not exists(filename):  # 파일이 해당 디렉터리에 존재하지 않으면
+        return  # handle()함수를 빠져 나온다.
+
+    print('파일[%s] 전송 시작...' % filename)
+    with open(filename, 'rb') as f:
+        try:
+            data = f.read(1024)  # 파일을 1024바이트 읽음
+            while data:  # 파일이 빈 문자열일때까지 반복
+                data_transferred += self.request.send(data)
+                data = f.read(1024)
+        except Exception as e:
+            print(e)
+
+    print('전송완료[%s], 전송량[%d]' % (filename, data_transferred))
+
+
+# 2,클라이언트 -> 서버 파일 전송 모듈
+def Client2Server(self):
+    data_transferred = 0
+    filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+    print(filename.decode())
+    data = self.request.recv(1024)
+    if not data:
+        print('파일[%s]: 클라이언트에 존재하지 않거나 전송중 오류발생' % filename)
+        return
+    try:  # make directory if not exist
+        if not (os.path.isdir("server/")):
+            os.makedirs(os.path.join("server/"))
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            print("Failed to create directory!!!!!")
+            raise
+
+    with open('server/' + filename.decode(), 'wb') as f:  # save file at directory
+        try:
+            while data:
+                f.write(data)
+                data_transferred += len(data)
+                data = self.request.recv(1024)
+        except Exception as e:
+            print(e)
+
+    print('파일[%s] 전송종료. 전송량 [%d]' % (filename, data_transferred))
+
+
+def runServer():
+    print('++++++파일 서버를 시작++++++')
+    print("+++파일 서버를 끝내려면 'Ctrl + C'를 누르세요.")
+
+    try:
+        server = socketserver.TCPServer((HOST, PORT), MyTcpHandler)
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print('++++++파일 서버를 종료합니다.++++++')
+
+
+runServer()
