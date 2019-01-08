@@ -35,11 +35,11 @@ def Server2Client(self):
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
     filename = filename.decode()  # 파일이름 이진 바이트 스트림 데이터를 일반 문자열로 변환
 
-    if not exists(filename):  # 파일이 해당 디렉터리에 존재하지 않으면
+    if not exists('server/' + filename):  # 파일이 해당 디렉터리에 존재하지 않으면
         return  # handle()함수를 빠져 나온다.
 
     print('파일[%s] 전송 시작...' % filename)
-    with open(filename, 'rb') as f:
+    with open('server/' + filename, 'rb') as f:
         try:
             data = f.read(1024)  # 파일을 1024바이트 읽음
             while data:  # 파일이 빈 문자열일때까지 반복
@@ -85,7 +85,7 @@ def SendList(self):
         for file in files:
             print(file[:-4])
             self.request.send(file.encode())
-            print('send complete')
+        print('send complete')
 #4. 클라이언트가 지정한 파일 서버 내에서 삭제
 def DeleteFile(self):
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
