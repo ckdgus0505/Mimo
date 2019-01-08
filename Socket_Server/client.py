@@ -61,8 +61,15 @@ def SendList():
         print(filename[:-4].decode())
         filename = sock.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
 
+#4. 서버내의 파일 삭제
+def DeleteFile(filename):
+        sock.sendall(filename.encode())
+        tmp = sock.recv(1024)
+        print(tmp.decode())
+
+
 print("서비스 받을 번호를 눌러주세요")
-service_number = input('a. 서버로부터 파일 수신 b. 서버로 파일 송신 c. 서버로부터 파일 목록 수신: ')
+service_number = input('a. 서버로부터 파일 수신 b. 서버로 파일 송신 c. 서버로부터 파일 목록 수신 d. 서버의 파일 삭제: ')
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((HOST, PORT))
@@ -78,5 +85,9 @@ elif (service_number == 'b'):
 elif (service_number == 'c'):
     sock.sendall(service_number.encode())
     SendList()
+elif (service_number == 'd'):
+    sock.sendall(service_number.encode())
+    filename = input('삭제할 파일이름을 입력하세요: ')
+    DeleteFile(filename)
 
 sock.close()

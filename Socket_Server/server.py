@@ -25,6 +25,8 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
             Client2Server(self)
         elif (service_number.decode() == 'c'):
             SendList(self)
+        elif (service_number.decode() == 'd'):
+            DeleteFile(self)
 
 
 # 1,서버 -> 클라이언트 파일 전송 모듈
@@ -84,7 +86,12 @@ def SendList(self):
             print(file[:-4])
             self.request.send(file.encode())
             print('send complete')
-
+#4. 클라이언트가 지정한 파일 서버 내에서 삭제
+def DeleteFile(self):
+    filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+    if os.path.isfile('server/'+filename.decode()):
+        os.remove('server/'+filename.decode())
+        self.request.send('delete complete'.encode())
 
 def runServer():
     print('++++++파일 서버를 시작++++++')
