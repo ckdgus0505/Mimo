@@ -20,13 +20,18 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
 
         service_number = self.request.recv(1024);
         if (service_number.decode() == 'a'):
+            print('[%s] 파일 서버로 전송 서비스' % self.client_address[0])
             Server2Client(self)
         elif (service_number.decode() == 'b'):
+            print('[%s] 파일 클라이언트로 전송 서비스' % self.client_address[0])
             Client2Server(self)
         elif (service_number.decode() == 'c'):
+            print('[%s] 파일 목록 전송 서비스' % self.client_address[0])
             SendList(self)
         elif (service_number.decode() == 'd'):
+            print('[%s] 파일 삭제 서비스' % self.client_address[0])
             DeleteFile(self)
+        print('[%s] 연결 끊김' % self.client_address[0])
 
 
 # 1,서버 -> 클라이언트 파일 전송 모듈
@@ -38,7 +43,6 @@ def Server2Client(self):
     if not exists('server/' + filename):  # 파일이 해당 디렉터리에 존재하지 않으면
         return  # handle()함수를 빠져 나온다.
 
-    print('파일[%s] 전송 시작...' % filename)
     with open('server/' + filename, 'rb') as f:
         try:
             data = f.read(1024)  # 파일을 1024바이트 읽음
@@ -48,7 +52,7 @@ def Server2Client(self):
         except Exception as e:
             print(e)
 
-    print('전송완료[%s], 전송량[%d]' % (filename, data_transferred))
+    print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0],filename, data_transferred))
 
 
 # 2,클라이언트 -> 서버 파일 전송 모듈
@@ -58,7 +62,7 @@ def Client2Server(self):
     print(filename.decode())
     data = self.request.recv(1024)
     if not data:
-        print('파일[%s]: 클라이언트에 존재하지 않거나 전송중 오류발생' % filename)
+        print('[%s] [%s] 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename))
         return
     try:  # make directory if not exist
         if not (os.path.isdir("server/")):
@@ -77,15 +81,14 @@ def Client2Server(self):
         except Exception as e:
             print(e)
 
-    print('파일[%s] 전송종료. 전송량 [%d]' % (filename, data_transferred))
+    print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0], filename, data_transferred))
 
 #3.서버 내의 리스트를 보여줌
 def SendList(self):
     for root, dirs, files in os.walk('./server'):
         for file in files:
-            print(file[:-4])
             self.request.send(file.encode())
-        print('send complete')
+
 #4. 클라이언트가 지정한 파일 서버 내에서 삭제
 def DeleteFile(self):
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
@@ -102,6 +105,7 @@ def runServer():
         server.serve_forever()
     except KeyboardInterrupt:
         print('++++++파일 서버를 종료합니다.++++++')
+
 
 
 

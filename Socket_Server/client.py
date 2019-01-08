@@ -76,7 +76,7 @@ sock.connect((HOST, PORT))
 
 if (service_number == 'a'):
     sock.sendall(service_number.encode())
-    filename = input('다운로드 받은 파일이름을 입력하세요: ')
+    filename = input('다운로드 받을 파일이름을 입력하세요: ')
     Server2Clinet(filename)
 elif (service_number == 'b'):
     sock.sendall(service_number.encode())
