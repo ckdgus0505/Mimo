@@ -9,7 +9,7 @@ def get_port():
     return int(port_number)
 HOST = 'localhost'
 PORT = get_port()
-
+# 1,서버 -> 클라이언트 파일 전송 모듈
 def Server2Clinet(filename):
     data_transferred = 0
 
@@ -36,7 +36,7 @@ def Server2Clinet(filename):
             print(e)
 
     print('파일[%s] 전송종료. 전송량 [%d]' % (filename, data_transferred))
-
+# 2,클라이언트 -> 서버 파일 전송 모듈
 def Client2Server(filename):
     data_transferred = 0
     sock.sendall(filename.encode())
@@ -54,7 +54,12 @@ def Client2Server(filename):
             print(e)
 
     print('전송완료[%s], 전송량[%d]' % (filename, data_transferred))
-
+#3.서버 내의 리스트를 보여줌
+def SendList():
+    filename = sock.recv(1024)
+    while filename:  # 파일이 빈 문자열일때까지 반복
+        print(filename[:-4].decode())
+        filename = sock.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
 
 print("서비스 받을 번호를 눌러주세요")
 service_number = input('a. 서버로부터 파일 수신 b. 서버로 파일 송신 c. 서버로부터 파일 목록 수신: ')
@@ -70,3 +75,8 @@ elif (service_number == 'b'):
     sock.sendall(service_number.encode())
     filename = input('업로드 할 파일이름을 입력하세요: ')
     Client2Server(filename)
+elif (service_number == 'c'):
+    sock.sendall(service_number.encode())
+    SendList()
+
+sock.close()

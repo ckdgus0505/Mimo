@@ -23,6 +23,8 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
             Server2Client(self)
         elif (service_number.decode() == 'b'):
             Client2Server(self)
+        elif (service_number.decode() == 'c'):
+            SendList(self)
 
 
 # 1,서버 -> 클라이언트 파일 전송 모듈
@@ -75,6 +77,14 @@ def Client2Server(self):
 
     print('파일[%s] 전송종료. 전송량 [%d]' % (filename, data_transferred))
 
+#3.서버 내의 리스트를 보여줌
+def SendList(self):
+    for root, dirs, files in os.walk('./server'):
+        for file in files:
+            print(file[:-4])
+            self.request.send(file.encode())
+            print('send complete')
+
 
 def runServer():
     print('++++++파일 서버를 시작++++++')
@@ -85,6 +95,7 @@ def runServer():
         server.serve_forever()
     except KeyboardInterrupt:
         print('++++++파일 서버를 종료합니다.++++++')
+
 
 
 runServer()
