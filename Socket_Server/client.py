@@ -7,7 +7,7 @@ def get_port():
     port_number = file.readline()
     file.close()
     return int(port_number)
-HOST = '192.168.0.110'
+HOST = '127.0.0.1'
 PORT = get_port()
 # 1,서버 -> 클라이언트 파일 전송 모듈
 def Server2Clinet(filename):
@@ -56,10 +56,12 @@ def Client2Server(filename):
     print('전송완료[%s], 전송량[%d]' % (filename, data_transferred))
 #3.서버 내의 리스트를 보여줌
 def SendList():
-    filename = sock.recv(1024)
-    while filename:  # 파일이 빈 문자열일때까지 반복
-        print(filename[:-4].decode())
-        filename = sock.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+    num = sock.recv(1024)
+    for i in range(1,int(num.decode())):
+        filename = sock.recv(1024)
+        tmp = filename.decode()
+        print('%s' %tmp[:-4])
+
 
 #4. 서버내의 파일 삭제
 def DeleteFile(filename):
@@ -67,27 +69,23 @@ def DeleteFile(filename):
         tmp = sock.recv(1024)
         print(tmp.decode())
 
-
 print("서비스 받을 번호를 눌러주세요")
 service_number = input('a. 서버로부터 파일 수신 b. 서버로 파일 송신 c. 서버로부터 파일 목록 수신 d. 서버의 파일 삭제: ')
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((HOST, PORT))
 
+sock.sendall(service_number.encode())
 if (service_number == 'a'):
-    sock.sendall(service_number.encode())
     filename = input('다운로드 받을 파일이름을 입력하세요: ')
     Server2Clinet(filename)
 elif (service_number == 'b'):
-    sock.sendall(service_number.encode())
     filename = input('업로드 할 파일이름을 입력하세요: ')
     Client2Server(filename)
 elif (service_number == 'c'):
-    sock.sendall(service_number.encode())
     SendList()
 elif (service_number == 'd'):
-    sock.sendall(service_number.encode())
-    filename = input('삭제할 파일이름을 입력하세요: ')
+    filename = input('삭제 할 파일이름을 입력하세요: ')
     DeleteFile(filename)
 
 sock.close()

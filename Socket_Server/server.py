@@ -1,6 +1,7 @@
 import socketserver
 import os
 from os.path import exists
+from time import sleep
 
 
 def get_port():
@@ -39,7 +40,7 @@ def Server2Client(self):
     data_transferred = 0
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
     filename = filename.decode()  # 파일이름 이진 바이트 스트림 데이터를 일반 문자열로 변환
-
+    print(filename)
     if not exists('server/' + filename):  # 파일이 해당 디렉터리에 존재하지 않으면
         return  # handle()함수를 빠져 나온다.
 
@@ -59,7 +60,9 @@ def Server2Client(self):
 def Client2Server(self):
     data_transferred = 0
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+
     data = self.request.recv(1024)
+
     if not data:
         print('[%s] [%s] 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename))
         return
@@ -84,8 +87,11 @@ def Client2Server(self):
 
 #3.서버 내의 리스트를 보여줌
 def SendList(self):
+    cnt = sum([len(files) for r, d, files in os.walk("./server")])
+    self.request.send(str(cnt).encode())
     for root, dirs, files in os.walk('./server'):
         for file in files:
+            sleep(0.000001) # 한번 전송할때 하나의 파일이 가게끔 sleep을 걸어줌
             self.request.send(file.encode())
 
 #4. 클라이언트가 지정한 파일 서버 내에서 삭제
