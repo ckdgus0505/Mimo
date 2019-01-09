@@ -63,7 +63,7 @@ def Client2Server(self):
     data = self.request.recv(1024)
 
     if not data:
-        print('[%s] [%s] 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename))
+        print('[%s] %s 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename.decode()))
         return
     try:  # make directory if not exist
         if not (os.path.isdir("server/")):
