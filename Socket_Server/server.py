@@ -40,7 +40,6 @@ def Server2Client(self):
     data_transferred = 0
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
     filename = filename.decode()  # 파일이름 이진 바이트 스트림 데이터를 일반 문자열로 변환
-    print(filename)
     if not exists('server/' + filename):  # 파일이 해당 디렉터리에 존재하지 않으면
         return  # handle()함수를 빠져 나온다.
 
@@ -83,7 +82,7 @@ def Client2Server(self):
         except Exception as e:
             print(e)
 
-    print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0], filename, data_transferred))
+    print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0], filename.decode(), data_transferred))
 
 #3.서버 내의 리스트를 보여줌
 def SendList(self):
