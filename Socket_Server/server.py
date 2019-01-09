@@ -59,7 +59,6 @@ def Server2Client(self):
 def Client2Server(self):
     data_transferred = 0
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
-    print(filename.decode())
     data = self.request.recv(1024)
     if not data:
         print('[%s] [%s] 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename))

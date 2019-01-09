@@ -7,7 +7,7 @@ def get_port():
     port_number = file.readline()
     file.close()
     return int(port_number)
-HOST = 'localhost'
+HOST = '192.168.0.110'
 PORT = get_port()
 # 1,서버 -> 클라이언트 파일 전송 모듈
 def Server2Clinet(filename):
