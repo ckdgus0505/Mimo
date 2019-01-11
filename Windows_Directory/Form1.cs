@@ -16,12 +16,15 @@ namespace Mimo
     {
         string dirPath = @".\..\..\..\mimms\";
         string filename;
+        string ip = "";
+        string ID;
 
 
-
-        public Form1()
+        public Form1(String ID)
         {
             InitializeComponent();
+            ID = this.ID;
+            MessageBox.Show(ID + "로 접속되었습니다");
         }
 
         private void BtnHelp_Click(object sender, EventArgs e)
