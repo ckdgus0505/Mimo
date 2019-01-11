@@ -24,33 +24,49 @@ namespace Mimo
             InitializeComponent();
             btnLogin.Click += BtnLogin_Click;
             btnReg.Click += BtnReg_Click;
+            txtPasswd.KeyDown += TxtPasswd_KeyDown;
+        }
+
+        private void TxtPasswd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnLogin.PerformClick();
+            }
         }
 
         private void BtnReg_Click(object sender, EventArgs e)
         {
-            string insertQuery = "INSERT INTO MEMBER(ID, PASSWORD) VALUE( \" "+txtId.Text.ToString()+ " \", \" " + txtPasswd.Text.ToString() + "\");";
-
-            connection.Open();
-            MySqlCommand command = new MySqlCommand(insertQuery, connection);
-
-            try
+            if (txtId.Text != "" && txtPasswd.Text != "")
             {
-                if (command.ExecuteNonQuery() == 1)
+                string insertQuery = "INSERT INTO MEMBER(ID, PASSWORD) VALUE( \" "+txtId.Text.ToString()+ " \", \" " + txtPasswd.Text.ToString() + "\");";
+
+                connection.Open();
+                MySqlCommand command = new MySqlCommand(insertQuery, connection);
+
+                try
                 {
-                    MessageBox.Show("성공적으로 생성되었습니다.");
-                    connection.Close();
-                    //btnLogin.PerformClick();
-                }
-                else
-                {
+                    if (command.ExecuteNonQuery() == 1)
+                    {
+                        MessageBox.Show("성공적으로 생성되었습니다.");
+                        connection.Close();
+                        //btnLogin.PerformClick();
+                    }
+                    else
+                    {
                     
+                    }
+                }
+                catch (Exception err)
+                {
+                    // MessageBox.Show("이미 존재하는 아이디입니다.");
+                    MessageBox.Show(err.Message);
+                    connection.Close();
                 }
             }
-            catch (Exception err)
+            else
             {
-                // MessageBox.Show("이미 존재하는 아이디입니다.");
-                MessageBox.Show(err.Message);
-                connection.Close();
+                MessageBox.Show("ID 혹은 암호가 입력되지 않았습니다.");
             }
 
         }
@@ -60,33 +76,44 @@ namespace Mimo
 
             if (txtId.Text != "" && txtPasswd.Text != "")
             {
-                connection.Open();
-                string selectQuery = "SELECT ID, PASSWORD FROM MEMBER WHERE ID = \" " + txtId.Text.ToString() + "\";";
+                string selectQuery = "SELECT ID, PASSWORD FROM MEMBER WHERE ID = \" " + txtId.Text.ToString() + "\" and PASSWORD = \" " + txtPasswd.Text.ToString() +" \";";
+                string IDOKQuery = "SELECT ID, PASSWORD FROM MEMBER WHERE ID = \" " + txtId.Text.ToString() + "\";";
                 MySqlCommand commend = new MySqlCommand(selectQuery, connection);
-
+                connection.Open();
+                
                 MySqlDataReader reader = commend.ExecuteReader();
 
-                if (reader.Read())
+                int count = 0;
+                int is_account = 0;
+                while (reader.Read())
                 {
-                    if (reader["PASSWORD"].ToString() == txtPasswd.Text.ToString())
-                    {
-                        ID = txtId.ToString();
-                        connection.Close();
-                        MessageBox.Show("로그인 되었습니다.");
-                        Form1 F1 = new Form1(ID);
-                        F1.Show();
-                        this.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("암호가 올바르지 않습니다.");
-                    }   
+                    count++;
                 }
-                else
+                reader.Close();
+                commend.CommandText = IDOKQuery;
+                MySqlDataReader reader2 = commend.ExecuteReader();
+                while (reader2.Read())
                 {
-                    MessageBox.Show("일치하는 계정이 없습니다.");
+                    is_account++;
                 }
                 connection.Close();
+                if (count == 1)
+                {
+                    ID = txtId.Text.ToString();
+                    
+                    MessageBox.Show("로그인 되었습니다.");
+                    Form1 F1 = new Form1(ID);
+                    F1.Show();
+                    this.Close();
+                }
+                else if(is_account == 1 && count == 0)
+                {
+                    MessageBox.Show("비밀번호를 잘못 입력하셨습니다.");
+                }
+                else if (is_account == 0)
+                {
+                    MessageBox.Show("없는 계정입니다.");
+                }
             }
             else
             {
