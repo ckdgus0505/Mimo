@@ -13,13 +13,14 @@ def get_port():
 
 HOST = ''
 PORT = get_port()
+ID = ''
 
 
 class MyTcpHandler(socketserver.BaseRequestHandler):
     def handle(self):
         print('[%s] 연결됨' % self.client_address[0])
-
-        service_number = self.request.recv(1024);
+        ID = self.request.recv(21).decode()
+        service_number = self.request.recv(1024)
         if (service_number.decode() == 'a'):
             print('[%s] 파일 서버로 전송 서비스' % self.client_address[0])
             Server2Client(self)

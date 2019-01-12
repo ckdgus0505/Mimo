@@ -1,6 +1,7 @@
 import socket
 import os
 from os.path import exists
+from time import sleep
 
 def get_port():
     file = open("port", "r")
@@ -9,6 +10,7 @@ def get_port():
     return int(port_number)
 HOST = '127.0.0.1'
 PORT = get_port()
+ID = 'abc'
 # 1,서버 -> 클라이언트 파일 전송 모듈
 def Server2Clinet(filename):
     data_transferred = 0
@@ -57,7 +59,7 @@ def Client2Server(filename):
 #3.서버 내의 리스트를 보여줌
 def SendList():
     num = sock.recv(1024)
-    for i in range(1,int(num.decode())):
+    for i in range(1, (int)(num.decode())):
         filename = sock.recv(1024)
         tmp = filename.decode()
         print('%s' %tmp[:-4])
@@ -74,7 +76,8 @@ service_number = input('a. 서버로부터 파일 수신 b. 서버로 파일 송
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((HOST, PORT))
-
+sock. sendall(ID.encode())
+sleep(0.000001)
 sock.sendall(service_number.encode())
 if (service_number == 'a'):
     filename = input('다운로드 받을 파일이름을 입력하세요: ')

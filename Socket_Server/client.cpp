@@ -2,6 +2,7 @@
 #include<WinSock2.h>
 #include<string.h>
 #include<string.h>
+#include<Windows.h>// to sleep
 
 #define SERVERIP "127.0.0.1"
 #define  BUFF_SIZE   1024
@@ -25,7 +26,8 @@ int main(int argc, char *argv[])
 	int retval;
 	char service_number[1];
 
-	char filename[BUFF_SIZE];
+	char ID[BUFF_SIZE];
+		char filename[BUFF_SIZE];
 	SOCKET * socptr;
 	// 윈속 초기화 
 	WSADATA wsa;
@@ -43,12 +45,17 @@ int main(int argc, char *argv[])
 	serveraddr.sin_addr.s_addr = inet_addr(SERVERIP);
 	serveraddr.sin_port = htons(get_port());
 
+	strcpy(ID, "abc");
+
 	printf("a. 서버로부터 파일 수신 b. 서버로 파일 송신 c. 서버로부터 파일 목록 수신 d. 서버의 파일 삭제:");
 	scanf("%c", &service_number);
 
 	// 연결 요청
 	retval = connect(sock, (SOCKADDR *)&serveraddr, sizeof(serveraddr));
 	if (retval == SOCKET_ERROR) exit(1);
+	send(sock, ID, strlen(ID), 0);
+	Sleep(10);
+
 
 	send(sock, service_number, sizeof(service_number), 0);
 
@@ -119,7 +126,7 @@ int main(int argc, char *argv[])
 			readBytes = recv(sock, filename, BUFF_SIZE, 0);
 			for (int i = 0; i < readBytes; i++)
 				printf("%c", filename[i]);
-			printf("\n");
+			printf("\r\n");
 		}
 
 	}
