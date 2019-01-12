@@ -103,7 +103,8 @@ namespace Mimo
                     
                     MessageBox.Show("로그인 되었습니다.");
                     Form1 F1 = new Form1(ID);
-                    F1.Show();
+                    this.Visible = false;
+                    F1.ShowDialog();
                     this.Close();
                 }
                 else if(is_account == 1 && count == 0)

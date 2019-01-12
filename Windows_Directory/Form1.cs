@@ -20,10 +20,10 @@ namespace Mimo
         string ID;
 
 
-        public Form1(String ID)
+        public Form1(String id)
         {
             InitializeComponent();
-            ID = this.ID;
+            ID = id;
             MessageBox.Show(ID + "로 접속되었습니다");
         }
 
