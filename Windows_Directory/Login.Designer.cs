@@ -34,15 +34,16 @@
             this.txtId = new System.Windows.Forms.TextBox();
             this.txtPasswd = new System.Windows.Forms.TextBox();
             this.btnReg = new System.Windows.Forms.Button();
+            this.btnOFL = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnLogin
             // 
             this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogin.Location = new System.Drawing.Point(309, 216);
+            this.btnLogin.Location = new System.Drawing.Point(381, 216);
             this.btnLogin.Margin = new System.Windows.Forms.Padding(2);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(235, 65);
+            this.btnLogin.Size = new System.Drawing.Size(162, 65);
             this.btnLogin.TabIndex = 0;
             this.btnLogin.Text = "Sign In";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -78,6 +79,7 @@
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(332, 30);
             this.txtId.TabIndex = 3;
+            this.txtId.Text = "changJ";
             // 
             // txtPasswd
             // 
@@ -89,17 +91,29 @@
             this.txtPasswd.PasswordChar = '*';
             this.txtPasswd.Size = new System.Drawing.Size(332, 30);
             this.txtPasswd.TabIndex = 3;
+            this.txtPasswd.Text = "0304";
             // 
             // btnReg
             // 
             this.btnReg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReg.Location = new System.Drawing.Point(41, 216);
+            this.btnReg.Location = new System.Drawing.Point(211, 216);
             this.btnReg.Margin = new System.Windows.Forms.Padding(2);
             this.btnReg.Name = "btnReg";
-            this.btnReg.Size = new System.Drawing.Size(235, 65);
+            this.btnReg.Size = new System.Drawing.Size(162, 65);
             this.btnReg.TabIndex = 0;
             this.btnReg.Text = "Register";
             this.btnReg.UseVisualStyleBackColor = true;
+            // 
+            // btnOFL
+            // 
+            this.btnOFL.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOFL.Location = new System.Drawing.Point(41, 216);
+            this.btnOFL.Margin = new System.Windows.Forms.Padding(2);
+            this.btnOFL.Name = "btnOFL";
+            this.btnOFL.Size = new System.Drawing.Size(162, 65);
+            this.btnOFL.TabIndex = 0;
+            this.btnOFL.Text = "OFFLINEMODE";
+            this.btnOFL.UseVisualStyleBackColor = true;
             // 
             // Login
             // 
@@ -111,6 +125,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnLogin);
+            this.Controls.Add(this.btnOFL);
             this.Controls.Add(this.btnReg);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -131,5 +146,6 @@
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.TextBox txtPasswd;
         private System.Windows.Forms.Button btnReg;
+        private System.Windows.Forms.Button btnOFL;
     }
 }

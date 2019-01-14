@@ -25,6 +25,15 @@ namespace Mimo
             btnLogin.Click += BtnLogin_Click;
             btnReg.Click += BtnReg_Click;
             txtPasswd.KeyDown += TxtPasswd_KeyDown;
+            btnOFL.Click += BtnOFL_Click;
+        }
+
+        private void BtnOFL_Click(object sender, EventArgs e)
+        {
+            Form1 F1 = new Form1(0);
+            this.Visible = false;
+            F1.ShowDialog();
+            this.Close();
         }
 
         private void TxtPasswd_KeyDown(object sender, KeyEventArgs e)
@@ -101,8 +110,8 @@ namespace Mimo
                 {
                     ID = txtId.Text.ToString();
                     
-                    MessageBox.Show("로그인 되었습니다.");
-                    Form1 F1 = new Form1(ID);
+                    //MessageBox.Show("로그인 되었습니다.");
+                    Form1 F1 = new Form1(1, ID);
                     this.Visible = false;
                     F1.ShowDialog();
                     this.Close();
