@@ -8,10 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.ObjectInputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -25,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     File[] files;
     File objectFile;
     Socket sock;
+    int port;
+    EditText inputOrder;
+    EditText inputFileName;
+    EditText inputUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +51,83 @@ public class MainActivity extends AppCompatActivity {
 
     public void onButtonConnect(View view)
     {
-        Log.d("myerror", "result:");
-        try{
-            Log.d("myerror", "result:1");
-            sock = new Socket("58.228.40.209", 1154);
-            Log.d("myerror", "result:2");
-            boolean tf = sock.isConnected();
-            Log.d("myerror", "result:3"+tf);
-            Toast.makeText(this, "result : " + tf, Toast.LENGTH_LONG).show();
-        }catch (Exception e){
-            Log.d("myerror", "result:-1");
-            e.printStackTrace();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        inputUrl = (EditText)findViewById(R.id.inputUrl) ;
+        String addr = inputUrl.getText().toString().trim();
+        ConnectThread thread = new ConnectThread(addr);
+        thread.start();
+//        port =1154;
+//        Log.d("myerror", "result:");
+//        try{
+//            Log.d("myerror", "result:1");
+//            sock = new Socket("58.228.40.209", port); // test...
+//            Log.d("myerror", "result:2");
+//            boolean tf = sock.isConnected();
+//            Log.d("myerror", "result:3"+tf);
+//            Toast.makeText(this, "result : " + tf, Toast.LENGTH_LONG).show();
+//        }catch (Exception e){
+//            Log.d("myerror", "result:-1");
+//            e.printStackTrace();
+//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+//        }
+    }
+
+    class ConnectThread extends Thread {
+        String hostname;
+
+        public ConnectThread(String addr) {
+            hostname = addr;
+        }
+
+        public void run() {
+
+            try {
+                inputOrder= (EditText)findViewById(R.id.inputOrder);
+                inputFileName= (EditText)findViewById(R.id.inputFileName);
+                String testValue = inputOrder.getText().toString();
+                Log.d("MainActivity", "통과");
+                int port = 1154;
+
+                Socket sock = new Socket(hostname, port);
+                DataOutputStream dout=new DataOutputStream(sock.getOutputStream());
+
+                //String testValue = "a";
+
+                dout.writeUTF(testValue);
+                dout.flush();
+                dout.close();
+                //PrintWriter out = new PrintWriter(sock.getOutputStream());
+                //out.print("a");
+                //out.print(encodeValue);
+
+                //BufferedWriter in = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "EUC_KR"));
+                //in.readLine();
+                //BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+
+                //ObjectOutputStream outstream = new ObjectOutputStream(sock.getOutputStream());
+                //outstream.writeObject(testValue);// test
+                //outstream.flush();
+
+                //byte[] encodeValue = Base64.encode(testValue.getBytes(), Base64.DEFAULT);
+                //String str = new String(DatatypeConverter.parseBase64Binary("user:123"));
+
+
+                Log.d("MainActivity", "Passing encodeValue = " + testValue.toString());
+
+                Log.d("MainActivity", "통과2");
+                ObjectInputStream instream = new ObjectInputStream(sock.getInputStream());
+                String obj = (String) instream.readObject();
+
+                Log.d("MainActivity", "서버에서 받은 메시지 : " + obj);
+
+                sock.close();
+
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+
         }
     }
+
     public void onButtonNew(View view)
     {
         Intent MemoIntent = new Intent(this, NewActivity.class);
