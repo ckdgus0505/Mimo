@@ -18,6 +18,7 @@ namespace Mimo
     public partial class Form1 : Form
     {
         Byte[] data = new Byte[1024]; // 송/수신 버퍼;
+        Byte[] Null = new Byte[1024]; // 송/수신 버퍼;
         String result; // 수신한 데이터를 디코딩 하기위한 변수;
         int length; // 수신한 데이터 크기 저장하는 변수
         string dirPath = @".\..\..\..\mimms\";
@@ -64,7 +65,7 @@ namespace Mimo
             data = Encoding.Default.GetBytes(ID);
             sock.Send(data);
             System.Threading.Thread.Sleep(10);
-
+            data = Null;
             return sock;
         }
 
@@ -221,13 +222,15 @@ namespace Mimo
                         data = Encoding.Default.GetBytes("d");
                         sock.Send(data);
                         System.Threading.Thread.Sleep(10);
-
+                        data = Null;
                         filename = mimLists.SelectedItem.ToString();
                         data = Encoding.Default.GetBytes(filename);
                         sock.Send(data); // 삭제할 파일 이름보냄
+                        data = Null;
                         length = sock.Receive(data, SocketFlags.None);
                         result = Encoding.Default.GetString(data, data.Length, length);
                         MessageBox.Show(result);
+                        data = Null;
                     }
                     catch (Exception err)
                     {
@@ -351,15 +354,16 @@ namespace Mimo
                     data = Encoding.Default.GetBytes("c");
                     sock.Send(data);
                     System.Threading.Thread.Sleep(10);
-
+                    data = Null;
                     length = sock.Receive(data, data.Length, SocketFlags.None);
                     num = int.Parse(Encoding.Default.GetString(data));
 
                     for(int i = 0; i < num; i++)
                     {
-                        length = sock.Receive(data, data.Length, SocketFlags.None);
-                        temp = Encoding.Default.GetString(data, data.Length, length);
+                        length = sock.Receive(data);
+                        temp = Encoding.Default.GetString(data);
                         mimLists.Items.Add(temp);
+                        data = Null;
                     }
                     
                 }
