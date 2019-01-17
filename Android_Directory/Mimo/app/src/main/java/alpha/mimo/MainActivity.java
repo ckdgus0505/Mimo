@@ -1,6 +1,7 @@
 package alpha.mimo;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,16 +9,26 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import static android.widget.Toast.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     EditText inputOrder;
     EditText inputFileName;
     EditText inputUrl;
+    Button buttonSend;
+    BufferedReader networkReader;
+    BufferedWriter networkWriter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +58,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
                 fileName = items.get(position).toString();
-                Toast.makeText(getApplicationContext(),items.get(position).toString(),Toast.LENGTH_LONG).show();
+                makeText(getApplicationContext(),items.get(position).toString(), LENGTH_LONG).show();
             }
         });
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        buttonSend = (Button)findViewById(R.id.buttonSend);
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputFileName = (EditText) findViewById(R.id.inputFileName);
+                if (inputFileName.getText().toString() != null
+                        || !inputFileName.getText().toString().equals("")) {
+                    PrintWriter out = new PrintWriter(networkWriter,true);
+
+                    String return_msg = inputFileName.getText().toString();
+                    Log.d("MainActivity", "통과return_msg"+return_msg.substring(0,return_msg.length()-1));
+                    out.println(return_msg.substring(0,return_msg.length()));
+                }
+            }
+        });
+
+
     }
 
     public void onButtonConnect(View view)
@@ -81,19 +116,42 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
 
             try {
+                String ID = "abc";
+
                 inputOrder= (EditText)findViewById(R.id.inputOrder);
                 inputFileName= (EditText)findViewById(R.id.inputFileName);
-                String testValue = inputOrder.getText().toString();
+                String testValue;
                 Log.d("MainActivity", "통과");
                 int port = 1154;
 
                 Socket sock = new Socket(hostname, port);
                 DataOutputStream dout=new DataOutputStream(sock.getOutputStream());
-
+                DataInputStream din=new DataInputStream(sock.getInputStream());
+                networkReader= new BufferedReader(new InputStreamReader(sock.getInputStream()));
+                networkWriter = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
                 //String testValue = "a";
-
+                testValue = "abc";
                 dout.writeUTF(testValue);
-                dout.flush();
+                dout=new DataOutputStream(sock.getOutputStream());
+                testValue= inputOrder.getText().toString();
+                dout.writeUTF(testValue);
+                Log.d("MainActivity", "통과2");
+                //dout.writeUTF(testValue);
+
+                //dout.flush();
+                Log.d("MainActivity", "통과3");
+                showToast("다운로드받을 파일이름을 입력하세요.");
+                //Toast.makeText(getApplicationContext(), "다운로드 받을 파일이름을 입력하세요!", LENGTH_SHORT).show();
+                //Toast.makeText(this, "다운로드 받을 파일이름을 입력하세요!", Toast.LENGTH_LONG).show();
+                Log.d("MainActivity", "통과4");
+                String filename = networkReader.readLine();
+                Log.d("MainActivity", "통과5" + filename);
+
+                Log.d("MainActivity", "통과6");
+                ObjectInputStream instream = new ObjectInputStream(sock.getInputStream());
+                String obj = (String) instream.readObject();
+                Log.d("MainActivity", "통과서버에서 받은 메시지 : " + obj);
+
                 dout.close();
                 //PrintWriter out = new PrintWriter(sock.getOutputStream());
                 //out.print("a");
@@ -114,10 +172,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MainActivity", "Passing encodeValue = " + testValue.toString());
 
                 Log.d("MainActivity", "통과2");
-                ObjectInputStream instream = new ObjectInputStream(sock.getInputStream());
-                String obj = (String) instream.readObject();
-
-                Log.d("MainActivity", "서버에서 받은 메시지 : " + obj);
+ //               ObjectInputStream instream = new ObjectInputStream(sock.getInputStream());
+//                String obj = (String) instream.readObject();
+////
+///               Log.d("MainActivity", "서버에서 받은 메시지 : " + obj);
 
                 sock.close();
 
@@ -127,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    public void showToast(final String toast) { runOnUiThread(new Runnable() { public void run() { Toast.makeText(getApplicationContext(),toast, Toast.LENGTH_SHORT).show(); } }); }
+
+
 
     public void onButtonNew(View view)
     {
@@ -134,6 +195,19 @@ public class MainActivity extends AppCompatActivity {
         //MemoIntent.putExtra("fileName", fileName);
         startActivityForResult(MemoIntent, 101);
     }
+//    public void onButtonSend(View view)
+//    {
+//        inputFileName = (EditText) findViewById(R.id.inputFileName);
+//        if (inputFileName.getText().toString() != null
+//
+//                || !inputFileName.getText().toString().equals("")) {
+//            PrintWriter out = new PrintWriter(networkWriter,true);
+//
+//            String return_msg = inputFileName.getText().toString();
+//            out.println(return_msg);
+//
+//        }
+//    }
 
     public void onButtonOpen(View view)
     {
@@ -148,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         else {
-            Toast.makeText(getApplicationContext(), "선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
+            makeText(getApplicationContext(), "선택되지 않았습니다.", LENGTH_SHORT).show();
         }
     }
 
@@ -170,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            makeText(this, e.getMessage(), LENGTH_LONG).show();
         }
 
         // 파일 삭제 하는 부분 추가해야 함
@@ -196,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }catch(Exception e){
             e.printStackTrace();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            makeText(this, e.getMessage(), LENGTH_LONG).show();
         }
     }
 

@@ -55,7 +55,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="url 입력"
-                    android:text="172.30.1.30" />
+                    android:text="172.30.1.51" />
 
                 <EditText
                     android:id="@+id/inputFileName"
@@ -130,6 +130,20 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/buttonSend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryDark"
+                    android:onClick="onButtonSend"
+                    android:text="전송"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
