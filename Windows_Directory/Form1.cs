@@ -23,7 +23,8 @@ namespace Mimo
         int length; // 수신한 데이터 크기 저장하는 변수
         string dirPath = @".\..\..\..\mimms\";
         string filename;
-        string ip = "localhost";
+        string IP = "127.0.0.1";
+        Int32 PORT;
         string ID;
         int mode; // 0이면 오프라인, 1이면 온라인 모드임;;
         TcpClient client = new TcpClient();
@@ -54,8 +55,8 @@ namespace Mimo
         private Socket connection()
         {
             //1. 접속할 종단점(서버측 소켓)생성
-            IPAddress ip = IPAddress.Parse("127.0.0.1");//인자값 : 서버측 IP
-            IPEndPoint endPoint = new IPEndPoint(ip, 1154);//인자값 : IPAddress,포트번호
+            IPAddress ip = IPAddress.Parse(IP);//인자값 : 서버측 IP
+            IPEndPoint endPoint = new IPEndPoint(ip, PORT);//인자값 : IPAddress,포트번호
 
             //2. Tcp Socket 생성
             Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -381,6 +382,14 @@ namespace Mimo
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //using (StreamReader rdr = new StreamReader(@"./IP"))
+            //{
+            //    IP = rdr.ReadLine();
+            //}
+            using (StreamReader rdr = new StreamReader(@"./PORT"))
+            {
+                PORT = Int32.Parse(rdr.ReadLine());
+            }
             btnSync.PerformClick();
         }
     }

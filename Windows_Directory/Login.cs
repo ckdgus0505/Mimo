@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,10 +16,13 @@ namespace Mimo
 
     public partial class Login : Form
     {
-        MySqlConnection connection = new MySqlConnection("Server=192.168.0.110;Database=MIMO;Uid=MIMO;Pwd=mimo;");
+
+        MySqlConnection connection;// = new MySqlConnection("Server="+IP+";Database=MIMO;Uid=MIMO;Pwd=mimo;");
         string ID;
+        string IP;
         String Passwd;
         DataTable table = new DataTable();
+
         public Login()
         {
             InitializeComponent();
@@ -128,6 +132,15 @@ namespace Mimo
             else
             {
                 MessageBox.Show("ID 혹은 암호가 입력되지 않았습니다.");
+            }
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            using (StreamReader rdr = new StreamReader(@"./IP"))
+            {
+                IP = rdr.ReadLine();
+                connection = new MySqlConnection("Server=" + IP + ";Database=MIMO;Uid=MIMO;Pwd=mimo;");
             }
         }
     }
