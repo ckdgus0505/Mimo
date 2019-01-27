@@ -48,7 +48,7 @@ namespace Mimo
         {
             if (txtId.Text != "" && txtPasswd.Text != "")
             {
-                string insertQuery = "INSERT INTO MEMBER(ID, PASSWORD) VALUE( \" "+txtId.Text.ToString()+ " \", \" " + txtPasswd.Text.ToString() + "\");";
+                string insertQuery = "INSERT INTO MEMBER(ID, PASSWORD) VALUE( \""+txtId.Text.ToString()+ " \", \"" + txtPasswd.Text.ToString() + "\");";
 
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(insertQuery, connection);
@@ -85,8 +85,8 @@ namespace Mimo
 
             if (txtId.Text != "" && txtPasswd.Text != "")
             {
-                string selectQuery = "SELECT ID, PASSWORD FROM MEMBER WHERE ID = \" " + txtId.Text.ToString() + "\" and PASSWORD = \" " + txtPasswd.Text.ToString() +" \";";
-                string IDOKQuery = "SELECT ID, PASSWORD FROM MEMBER WHERE ID = \" " + txtId.Text.ToString() + "\";";
+                string selectQuery = "SELECT ID, PASSWORD FROM MEMBER WHERE ID = \"" + txtId.Text.ToString() + "\" and PASSWORD = \"" + txtPasswd.Text.ToString() +" \";";
+                string IDOKQuery = "SELECT ID, PASSWORD FROM MEMBER WHERE ID = \"" + txtId.Text.ToString() + "\";";
                 MySqlCommand commend = new MySqlCommand(selectQuery, connection);
                 connection.Open();
                 
