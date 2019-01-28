@@ -79,7 +79,6 @@
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(332, 30);
             this.txtId.TabIndex = 3;
-            this.txtId.Text = "changJ";
             // 
             // txtPasswd
             // 
@@ -91,7 +90,6 @@
             this.txtPasswd.PasswordChar = '*';
             this.txtPasswd.Size = new System.Drawing.Size(332, 30);
             this.txtPasswd.TabIndex = 3;
-            this.txtPasswd.Text = "0304";
             // 
             // btnReg
             // 

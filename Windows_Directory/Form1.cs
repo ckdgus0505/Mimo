@@ -39,12 +39,13 @@ namespace Mimo
             this.Text = "MIMO       모드 : 오프라인";
         }
 
-            public Form1(int MODE, String id) // 온라인 모드일때의 생성자
+        public Form1(int MODE, String id) // 온라인 모드일때의 생성자
         {
-            InitializeComponent();
-            mode = MODE;
             ID = id;
             MessageBox.Show(ID + "로 로그인 되었습니다");
+            InitializeComponent();
+            mode = MODE;
+
             this.Text = "MIMO       모드 : 온라인       ID : " + ID;
         }
 
@@ -403,7 +404,7 @@ namespace Mimo
                     data = (Byte[])Null.Clone();
 
                     length = sock.Receive(data, data.Length, SocketFlags.None);
-                    System.Threading.Thread.Sleep(100);
+                    System.Threading.Thread.Sleep(1000);
                     temp = Encoding.Default.GetString(data);
                     
                     num = int.Parse(temp.ToString());
