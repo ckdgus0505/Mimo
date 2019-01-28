@@ -152,6 +152,8 @@ namespace Mimo
                     data = (Byte[])Null.Clone();
                     System.Threading.Thread.Sleep(10);
 
+                    fileTitle.Text = mimLists.SelectedItem.ToString();
+
                     filename = mimLists.SelectedItem.ToString();
                     data = Encoding.Default.GetBytes(filename);
                     sock.Send(data);
@@ -230,11 +232,12 @@ namespace Mimo
                         data = Encoding.Default.GetBytes(filename);
                         sock.Send(data); // 삭제할 파일 이름보냄
                         data = (Byte[])Null.Clone();
-                 
                         length = sock.Receive(data);
                         result = Encoding.Default.GetString(data);
-                        MessageBox.Show(result);
+                        showMemo.ResetText();
+                        fileTitle.ResetText();
                         mimLists.Items.Remove(mimLists.SelectedItem);
+                        MessageBox.Show(result);
                         data = (Byte[])Null.Clone();
                     }
                     catch (Exception err)
@@ -292,6 +295,43 @@ namespace Mimo
 
                     MessageBox.Show("파일을 선택하세요");
                 }
+            }
+            else
+            {
+                Socket sock = connection();
+                try
+                {
+
+                    Byte[] data = Encoding.Default.GetBytes("b");
+                    sock.Send(data);
+                    data = (Byte[])Null.Clone();
+                    System.Threading.Thread.Sleep(10);
+
+                    filename = fileTitle.Text.ToString();
+                    data = Encoding.Default.GetBytes(filename);
+                    sock.Send(data);
+                    data = (Byte[])Null.Clone();
+                    System.Threading.Thread.Sleep(10);
+                 
+                    data = Encoding.Default.GetBytes(showMemo.Text.ToString());
+                    sock.Send(data);
+                    data = (Byte[])Null.Clone();
+
+
+                    sock.Close();
+
+
+                    btnSync.PerformClick();
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.ToString());
+                }
+                finally
+                {
+                    sock.Close();
+                }
+
             }
         }
 
