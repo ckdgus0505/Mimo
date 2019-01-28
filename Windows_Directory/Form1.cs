@@ -46,9 +46,6 @@ namespace Mimo
             ID = id;
             MessageBox.Show(ID + "로 로그인 되었습니다");
             this.Text = "MIMO       모드 : 온라인       ID : " + ID;
-
-            mimLists.Items.Add("a.txt");
-
         }
 
         private Socket connection()
@@ -150,17 +147,24 @@ namespace Mimo
                 try
                 {
                     
-                    Byte[] data = Encoding.Default.GetBytes("");
+                    Byte[] data = Encoding.Default.GetBytes("a");
                     sock.Send(data);
-
+                    data = (Byte[])Null.Clone();
                     System.Threading.Thread.Sleep(10);
 
                     filename = mimLists.SelectedItem.ToString();
                     data = Encoding.Default.GetBytes(filename);
-                    MessageBox.Show(data.ToString());
                     sock.Send(data);
-
-                    sock.Close();
+                    data = (Byte[])Null.Clone();
+                    System.Threading.Thread.Sleep(10);
+                    length = 1;
+                    showMemo.Text = null;
+                    while (length != 0)
+                    {
+                        length = sock.Receive(data);
+                        showMemo.Text =showMemo.Text.ToString() +  Encoding.Default.GetString(data);
+                        data = (Byte[])Null.Clone();
+                    }
                 }
                 catch (Exception err)
                 {
