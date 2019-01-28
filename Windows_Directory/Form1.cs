@@ -27,7 +27,6 @@ namespace Mimo
         Int32 PORT;
         string ID;
         int mode; // 0이면 오프라인, 1이면 온라인 모드임;;
-        TcpClient client = new TcpClient();
         
         public Form1(int MODE) // 오프라인 모드일때의 생성자
         {
@@ -147,10 +146,10 @@ namespace Mimo
             }
             else
             {
+                Socket sock = connection();
                 try
                 {
-                    Socket sock;
-                    sock = connection();
+                    
                     Byte[] data = Encoding.Default.GetBytes("");
                     sock.Send(data);
 
@@ -161,7 +160,7 @@ namespace Mimo
                     MessageBox.Show(data.ToString());
                     sock.Send(data);
 
-                    client.Close();
+                    sock.Close();
                 }
                 catch (Exception err)
                 {
@@ -169,7 +168,7 @@ namespace Mimo
                 }
                 finally
                 {
-                    client.Close();
+                    sock.Close();
                 }
 
             }
@@ -216,10 +215,9 @@ namespace Mimo
             {
                 if (MessageBox.Show("선택한 메모를 삭제하시겠습니까?", "메모삭제", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    Socket sock = connection();
                     try
                     {
-                        Socket sock;
-                        sock = connection();
                         data = Encoding.Default.GetBytes("d");
                         sock.Send(data);
                         System.Threading.Thread.Sleep(10);
@@ -239,7 +237,7 @@ namespace Mimo
                     }
                     finally
                     {
-                        client.Close();
+                        sock.Close();
                     }
                 }
             }
@@ -346,25 +344,34 @@ namespace Mimo
             }
             else
             {
+                Socket sock = connection();
                 try
                 {
+                    mimLists.Items.Clear();
+
                     string temp;
-                    int num;
-                    Socket sock;
-                    sock = connection();
+                    int num = 3;
                     data = Encoding.Default.GetBytes("c");
                     sock.Send(data);
                     System.Threading.Thread.Sleep(10);
-                    data = Null;
-                    length = sock.Receive(data, data.Length, SocketFlags.None);
-                    num = int.Parse(Encoding.Default.GetString(data));
+                    data = (Byte[])Null.Clone();
 
-                    for(int i = 0; i < num; i++)
+                    length = sock.Receive(data, data.Length, SocketFlags.None);
+                    System.Threading.Thread.Sleep(100);
+                    temp = Encoding.Default.GetString(data);
+                    
+                    num = int.Parse(temp.ToString());
+
+                    
+                    string[] separatingChars = { ".txt" };
+                    length = sock.Receive(data);
+                    temp = Encoding.Default.GetString(data);
+                    string[] words = temp.Split(separatingChars, System.StringSplitOptions.RemoveEmptyEntries);
+                    
+                    for (int i = 0; i < num; i++)
                     {
-                        length = sock.Receive(data);
-                        temp = Encoding.Default.GetString(data);
-                        mimLists.Items.Add(temp);
-                        data = Null;
+                        mimLists.Items.Add(words[i] + ".txt");
+                        
                     }
                     
                 }
@@ -374,9 +381,9 @@ namespace Mimo
                 }
                 finally
                 {
-                    client.Close();
+                    sock.Close();
                 }
-
+                
             }
         }
 
