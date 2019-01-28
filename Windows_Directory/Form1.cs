@@ -221,15 +221,17 @@ namespace Mimo
                         data = Encoding.Default.GetBytes("d");
                         sock.Send(data);
                         System.Threading.Thread.Sleep(10);
-                        data = Null;
+                        data = (Byte[])Null.Clone();
                         filename = mimLists.SelectedItem.ToString();
                         data = Encoding.Default.GetBytes(filename);
                         sock.Send(data); // 삭제할 파일 이름보냄
-                        data = Null;
-                        length = sock.Receive(data, SocketFlags.None);
-                        result = Encoding.Default.GetString(data, data.Length, length);
+                        data = (Byte[])Null.Clone();
+                 
+                        length = sock.Receive(data);
+                        result = Encoding.Default.GetString(data);
                         MessageBox.Show(result);
-                        data = Null;
+                        mimLists.Items.Remove(mimLists.SelectedItem);
+                        data = (Byte[])Null.Clone();
                     }
                     catch (Exception err)
                     {
