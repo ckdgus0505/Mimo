@@ -62,7 +62,7 @@ namespace Mimo
             sock.Connect(endPoint);
             data = Encoding.Default.GetBytes(ID);
             sock.Send(data);
-            System.Threading.Thread.Sleep(10);
+            System.Threading.Thread.Sleep(100);
             data = Null;
             return sock;
         }
