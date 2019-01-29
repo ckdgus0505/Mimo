@@ -23,7 +23,7 @@ namespace Mimo
         int length; // 수신한 데이터 크기 저장하는 변수
         string dirPath = @".\..\..\..\mimms\";
         string filename;
-        string IP = "127.0.0.1";
+        string IP = "58.120.197.22";// = "127.0.0.1";
         Int32 PORT;
         string ID;
         int mode; // 0이면 오프라인, 1이면 온라인 모드임;;
@@ -69,15 +69,10 @@ namespace Mimo
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
-            if (mode == 0)
-            {
-                string filePath;
-                filePath = string.Concat(dirPath, "\\what is Mimo.mimm");
-                string text = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
-                showMemo.Text = text;
-                fileTitle.Text = "what is Mimo";
-                return;
-            }
+            string MIMO = "메모장 관리 프로그램 입니다\r\n폴더 내의 .mimm 파일들을 관리해줍니다\r\n버튼은 총 5개로 OPEN, NEW, SAVE, DELETE, CONVERT, SYNC 기능을 담당합니다\r\n\r\n창은 상단, 좌단, 하단 총 3개로\r\n좌단의 창은 작성한 Mimo 들을 나타냅니다\r\n상단의 창은 현재 열려있는 Mimo의(또는 작성할 Mimo의) 제목을 나타냅니다\r\n하단의 창은 현재 열려있는 Mimo의(또는 작성할 Mimo의) 내용을 나타냅니다\r\n\r\nSYNC를 누르면 동기화가 되어 생성된 파일 또는 삭제된 파일을 반영해줍니다\r\n좌단의 목록에서 파일을 선택하고 OPEN을 누르면 해당 파일을 읽어오게 됩니다\r\n상단, 하단의 창에 내용을 적고 NEW 버튼을 누르면 새로운 Mimo가 생성됩니다\r\nSAVE 버튼은 Mimo의 내용을 수정합니다\r\nSYNC 버튼은 *.txt 파일을 선택하여 저장공간에 복사합니다\r\nCONVERT 버튼은 TXT 파일을 mimm 파일로 바꿔서 저장해줍니다\r\nDELETE 버튼은 Mimo를 삭제합니다";
+            showMemo.Text = MIMO;
+            fileTitle.Text = "what is Mimo";
+            return;
         }
 
         private void BtnConvert_Click(object sender, EventArgs e)
@@ -253,7 +248,6 @@ namespace Mimo
             }
         }
 
-
         private void BtnSave_Click(object sender, EventArgs e)
         {
             if (mode == 0)
@@ -321,7 +315,7 @@ namespace Mimo
 
                     sock.Close();
 
-
+                    System.Threading.Thread.Sleep(100);
                     btnSync.PerformClick();
                 }
                 catch (Exception err)
@@ -408,8 +402,8 @@ namespace Mimo
                     temp = Encoding.Default.GetString(data);
                     
                     num = int.Parse(temp.ToString());
+                    System.Threading.Thread.Sleep(10);
 
-                    
                     string[] separatingChars = { ".txt" };
                     length = sock.Receive(data);
                     temp = Encoding.Default.GetString(data);
@@ -436,10 +430,10 @@ namespace Mimo
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //using (StreamReader rdr = new StreamReader(@"./IP"))
-            //{
-            //    IP = rdr.ReadLine();
-            //}
+            using (StreamReader rdr = new StreamReader(@"./IP"))
+            {
+                IP = rdr.ReadLine();
+            }
             using (StreamReader rdr = new StreamReader(@"./PORT"))
             {
                 PORT = Int32.Parse(rdr.ReadLine());
