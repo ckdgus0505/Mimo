@@ -17,7 +17,7 @@ class Login:
 
         root.title("Mimo")
         root.resizable(False, False)
-        root.iconbitmap('..\images\icon.ico')
+        # root.iconbitmap('..\images\icon.ico')
 
         login_frm = Frame(root)
         login_frm.grid(row=1, column=1)

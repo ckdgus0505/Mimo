@@ -63,7 +63,7 @@ class Main:
 
         root.title("Mimo")
         root.resizable(False, False)
-        root.iconbitmap('..\images\icon.ico')
+        # root.iconbitmap('..\images\icon.ico')
 
         # ==== Frame List ====
         button_frm = Frame(root)
