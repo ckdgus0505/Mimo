@@ -1,6 +1,8 @@
 from tkinter import *
+import tkinter.messagebox
 import webbrowser
 import Mimo     # Mimo.py
+import pymysql
 
 
 class Login:
@@ -8,12 +10,26 @@ class Login:
         root = Tk()
 
         def on_login_btn():
-            print("login")
-            root.destroy()
-            Mimo.Main()
+            conn = pymysql.connect(host='mimm.dlinkddns.com', user='MIMO', password='mimo', db='MIMO', charset='utf8')
+            curs = conn.cursor()
+
+            name = name_ety.get()
+            sql = "select PASSWORD from MEMBER where ID = '" + name + "'"
+            curs.execute(sql)
+            password_mysql = str(curs.fetchone())[2:-3]
+            password_tkinter = pw_ety.get()
+
+            if password_mysql == password_tkinter:
+                root.destroy()
+                Mimo.Main()
+
+            else:
+                tkinter.messagebox.showerror("로그인 에러", "비밀번호 틀림")
 
         def on_signup_btn():
             webbrowser.open('http://mimm.dlinkddns.com/signup.html')
+
+        # ================================================================================================================================
 
         root.title("Mimo")
         root.resizable(False, False)
