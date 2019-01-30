@@ -19,7 +19,7 @@ class Login:
             password_mysql = str(curs.fetchone())[2:-3]
             password_tkinter = pw_ety.get()
 
-            if password_mysql == password_tkinter:
+            if password_mysql == password_tkinter and password_mysql != '':
                 root.destroy()
                 Mimo.Main()
 
