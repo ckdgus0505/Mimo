@@ -23,8 +23,8 @@ namespace Mimo
         int length; // 수신한 데이터 크기 저장하는 변수
         string dirPath = @".\mimms\";
         string filename;
-        string IP = "58.120.197.22";// = "127.0.0.1";
-        Int32 PORT;
+        string IP = "58.120.197.22";
+        Int32 PORT = 1154;
         string ID;
         int mode; // 0이면 오프라인, 1이면 온라인 모드임;;
         
@@ -449,14 +449,6 @@ namespace Mimo
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            using (StreamReader rdr = new StreamReader(@"./IP"))
-            {
-                IP = rdr.ReadLine();
-            }
-            using (StreamReader rdr = new StreamReader(@"./PORT"))
-            {
-                PORT = Int32.Parse(rdr.ReadLine());
-            }
             btnSync.PerformClick();
         }
     }

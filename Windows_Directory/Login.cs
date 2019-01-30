@@ -19,7 +19,7 @@ namespace Mimo
 
         MySqlConnection connection;// = new MySqlConnection("Server="+IP+";Database=MIMO;Uid=MIMO;Pwd=mimo;");
         string ID;
-        string IP;
+        string IP = "58.120.197.22";
         String Passwd;
         DataTable table = new DataTable();
 
@@ -137,11 +137,7 @@ namespace Mimo
 
         private void Login_Load(object sender, EventArgs e)
         {
-            using (StreamReader rdr = new StreamReader(@"./IP"))
-            {
-                IP = rdr.ReadLine();
-                connection = new MySqlConnection("Server=" + IP + ";Database=MIMO;Uid=MIMO;Pwd=mimo;");
-            }
+            connection = new MySqlConnection("Server=" + IP + ";Database=MIMO;Uid=MIMO;Pwd=mimo;");
         }
     }
 }
