@@ -21,7 +21,7 @@ namespace Mimo
         Byte[] Null = new Byte[1024]; // 송/수신 버퍼;
         String result; // 수신한 데이터를 디코딩 하기위한 변수;
         int length; // 수신한 데이터 크기 저장하는 변수
-        string dirPath = @".\..\..\..\mimms\";
+        string dirPath = @".\mimms\";
         string filename;
         string IP = "58.120.197.22";// = "127.0.0.1";
         Int32 PORT;
@@ -89,6 +89,11 @@ namespace Mimo
                     txtFileName = txtFilePath.Split('\\')[txtFilePath.Split('\\').Length - 1];
                     try
                     {
+                        DirectoryInfo di = new DirectoryInfo(dirPath);
+                        if(di.Exists == false)
+                        {
+                            di.Create();
+                        }
                         if (txtFileName.Split('.')[1] == "txt")
                         {
                             FileInfo file = new FileInfo(txtFilePath);
@@ -109,6 +114,44 @@ namespace Mimo
 
                 btnSync.PerformClick();
             }
+            else
+            {
+                String txtFilePath = null;
+                String txtFileName = null;
+                OpenFileDialog pFileDlg = new OpenFileDialog();
+                pFileDlg.InitialDirectory = "C:\\";
+                if (pFileDlg.ShowDialog() == DialogResult.OK)
+                {
+                    txtFilePath = pFileDlg.FileName;
+                    txtFileName = txtFilePath.Split('\\')[txtFilePath.Split('\\').Length - 1];
+                    try
+                    {
+                        if (txtFileName.Split('.')[1] == "txt")
+                        {
+                            FileInfo file = new FileInfo(txtFilePath);
+                            fileTitle.Text = txtFileName.Split('.')[0];
+                            FileStream fp = file.OpenRead();
+                            StreamReader sr = new StreamReader(fp, System.Text.Encoding.Default);
+                            showMemo.Text = sr.ReadToEnd();
+                            sr.Close();
+                            fp.Close();
+                            btnSave.PerformClick();
+                            
+
+                            MessageBox.Show("성공적으로 변환되었습니다");
+                        }
+                        else
+                        {
+                            MessageBox.Show(".txt 파일을 선택해주세요");
+
+                        }
+                    }
+                    catch (System.IO.IOException err)
+                    {
+                        MessageBox.Show("동일한 이름의 파일이이미 있습니다");
+                    }
+                }
+            }
         }
 
         private void BtnOpen_Click(object sender, EventArgs e)
@@ -122,7 +165,7 @@ namespace Mimo
                     title = string.Concat(title, ".mimm");
                     title = string.Concat('\\', title);
                     filePath = string.Concat(dirPath, title);
-                    string text = System.IO.File.ReadAllText(filePath, Encoding.Unicode);
+                    string text = System.IO.File.ReadAllText(filePath, Encoding.Default);
                     showMemo.Text = text;
                     fileTitle.Text = mimLists.SelectedItem.ToString();
                 }
@@ -150,7 +193,7 @@ namespace Mimo
 
                     fileTitle.Text = mimLists.SelectedItem.ToString();
 
-                    filename = mimLists.SelectedItem.ToString();
+                    filename = mimLists.SelectedItem.ToString() + ".mimm";
                     data = Encoding.Default.GetBytes(filename);
                     sock.Send(data);
                     data = (Byte[])Null.Clone();
@@ -224,7 +267,7 @@ namespace Mimo
                         sock.Send(data);
                         System.Threading.Thread.Sleep(10);
                         data = (Byte[])Null.Clone();
-                        filename = mimLists.SelectedItem.ToString();
+                        filename = mimLists.SelectedItem.ToString() + ".mimm";
                         data = Encoding.Default.GetBytes(filename);
                         sock.Send(data); // 삭제할 파일 이름보냄
                         data = (Byte[])Null.Clone();
@@ -254,6 +297,12 @@ namespace Mimo
             {
                 try
                 {
+                    DirectoryInfo di = new DirectoryInfo(dirPath);
+                    if (di.Exists == false)
+                    {
+                        di.Create();
+                    }
+
                     if (mimLists.SelectedItem != null)
                     {
                         if (mimLists.SelectedItem.ToString() == fileTitle.ToString())
@@ -277,7 +326,6 @@ namespace Mimo
                             System.IO.File.Delete(filePath);
                             mimLists.Items.Remove(mimLists.SelectedItem);
                             btnNew.PerformClick();
-
                         }
                     }
                     else
@@ -302,7 +350,7 @@ namespace Mimo
                     data = (Byte[])Null.Clone();
                     System.Threading.Thread.Sleep(10);
 
-                    filename = fileTitle.Text.ToString();
+                    filename = fileTitle.Text.ToString() + ".mimm";
                     data = Encoding.Default.GetBytes(filename);
                     sock.Send(data);
                     data = (Byte[])Null.Clone();
@@ -332,36 +380,8 @@ namespace Mimo
 
         private void BtnNew_Click(object sender, EventArgs e)
         {
-            if (mode == 0)
-            {
-                string title = fileTitle.Text;
-                if (title != "")
-                {
-                    title = string.Concat(title, ".mimm");
-                    title = string.Concat('\\', title);
-                    string filePath = string.Concat(dirPath, title);
-                    try
-                    {
-                        if (File.Exists(filePath))
-                        {
-                            MessageBox.Show("이미 같은 이름의 파일이 있습니다.");
-                        }
-                        else
-                        {
-                            System.IO.File.WriteAllText(filePath, showMemo.Text.ToString());
-                        }
-                    }
-                    catch (Exception err)
-                    {
-                        MessageBox.Show(err.ToString());
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("파일명을 입력하세요");
-                }
-                btnSync.PerformClick();
-            }
+            showMemo.ResetText();
+            fileTitle.ResetText();
         }
 
         private void BtnSync_Click(object sender, EventArgs e)
@@ -369,7 +389,7 @@ namespace Mimo
             if (mode == 0)
             {
                 mimLists.Items.Clear();
-                dirPath = @".\..\..\..\mimms\";
+                dirPath = @".\mimms\";
                 if (System.IO.Directory.Exists(@dirPath))
                 {
                     System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@dirPath);
@@ -391,27 +411,26 @@ namespace Mimo
                     mimLists.Items.Clear();
 
                     string temp;
-                    int num = 3;
+                    int num = 0;
                     data = Encoding.Default.GetBytes("c");
                     sock.Send(data);
                     System.Threading.Thread.Sleep(10);
                     data = (Byte[])Null.Clone();
 
                     length = sock.Receive(data, data.Length, SocketFlags.None);
-                    System.Threading.Thread.Sleep(1000);
+                    System.Threading.Thread.Sleep(100);
                     temp = Encoding.Default.GetString(data);
-                    
                     num = int.Parse(temp.ToString());
-                    System.Threading.Thread.Sleep(10);
+                    System.Threading.Thread.Sleep(100);
 
-                    string[] separatingChars = { ".txt" };
+                    string[] separatingChars = { ".mimm" };
                     length = sock.Receive(data);
                     temp = Encoding.Default.GetString(data);
                     string[] words = temp.Split(separatingChars, System.StringSplitOptions.RemoveEmptyEntries);
                     
                     for (int i = 0; i < num; i++)
                     {
-                        mimLists.Items.Add(words[i] + ".txt");
+                        mimLists.Items.Add(words[i]);
                         
                     }
                     
