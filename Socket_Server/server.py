@@ -1,5 +1,6 @@
 import socketserver
 import os
+import threading
 from os.path import exists
 from time import sleep
 
@@ -116,17 +117,22 @@ def DeleteFile(self, Path):
     else:
         self.request.send('no file exists'.encode())
 
+def connection():
+    server = socketserver.TCPServer((HOST, PORT), MyTcpHandler)
+    server.serve_forever()
+
 def runServer():
     print('++++++파일 서버를 시작++++++')
     print("+++파일 서버를 끝내려면 'Ctrl + C'를 누르세요.")
 
     try:
-        server = socketserver.TCPServer((HOST, PORT), MyTcpHandler)
-        server.serve_forever()
+        t = threading.Thread(target=connection, args=())
+        t.start()
+ #   try:
+ #       server = socketserver.TCPServer((HOST, PORT), MyTcpHandler)
+ #       server.serve_forever()
     except KeyboardInterrupt:
         print('++++++파일 서버를 종료합니다.++++++')
-
-
 
 
 runServer()
