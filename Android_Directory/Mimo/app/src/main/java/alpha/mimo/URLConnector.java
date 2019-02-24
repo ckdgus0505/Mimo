@@ -20,6 +20,9 @@ class URLConnector extends Thread {
         final String output = request(URLL);
         result =output;
     }
+    public String getResult(){
+        return result;
+    }
     private String request(String urlStr){
         StringBuilder output = new StringBuilder();
         try{

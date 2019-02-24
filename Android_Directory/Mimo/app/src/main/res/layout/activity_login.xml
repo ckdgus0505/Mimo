@@ -66,6 +66,7 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/login"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
