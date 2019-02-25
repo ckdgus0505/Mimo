@@ -42,9 +42,11 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
                 print("Failed to create directory!!!!!")
                 raise
 
+        print('40')
         service_number = self.request.recv(1024)
+        print('service_number:[%s]' % service_number);
         if (service_number[-1] == '\n'):
-            print('23')
+            print('43')
             service_number = service_number[:-1]
             print('26')
         if (service_number.decode() == 'a'):
