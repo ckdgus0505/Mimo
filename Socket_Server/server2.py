@@ -131,6 +131,7 @@ def Client2ServerJava(self, Path):
     print('filename_decode=[%s]', filename.decode())
     data = self.request.recv(1024)
     print('data=[%s]', data)
+    print('data[:-1] nondecode=[%s]', data[:-1])
     print('data_decode=[%s]', data.decode())
 
 
