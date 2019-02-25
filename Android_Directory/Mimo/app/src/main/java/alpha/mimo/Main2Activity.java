@@ -40,22 +40,21 @@ public class Main2Activity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        try {
-            clientSocket = new Socket(ip, port);
-            socketIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            socketOut = new PrintWriter(clientSocket.getOutputStream(), true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            clientSocket = new Socket(ip, port);
+//            socketIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//            socketOut = new PrintWriter(clientSocket.getOutputStream(), true);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         myHandler = new MyHandler();
         myThread = new MyThread();
         myThread.start();
-
-        Intent intent  = getIntent();
-        String ID =processIntent(intent);
-
-        socketOut.println(ID);
+//
+//        Intent intent  = getIntent();
+//        String ID =processIntent(intent);
+//        socketOut.println(ID);
         Log.d("SAMPLEHTTP", "send C");
 
         buttonSend = (Button) findViewById(R.id.buttonSend);
@@ -91,13 +90,27 @@ public class Main2Activity extends AppCompatActivity {
         public void run() {
 
                 try {
-                    Log.d("SAMPLEHTTP", "SEND? C??????");
+                    clientSocket = new Socket(ip, port);
+                    socketIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    socketOut = new PrintWriter(clientSocket.getOutputStream(), true);
+                    Intent intent  = getIntent();
+                    String ID =processIntent(intent);
+                    socketOut.println(ID);
+                    this.sleep(5000);
+                    socketOut.println("c");
+                    this.sleep(5000);
+                    String data = socketIn.readLine();
+                    Log.d("SAMPLEHTTP", data+" hi");
+                    data = socketIn.readLine();
+                    Log.d("SAMPLEHTTP", data+" hi");
+                    data = socketIn.readLine();
+                    Log.d("SAMPLEHTTP", data+" hi");
                     // InputStream의 값을 읽어와서 data에 저장
                     //String data = socketIn.readLine();
                     // Message 객체를 생성, 핸들러에 정보를 보낼 땐 이 메세지 객체를 이용
-                    Message msg = new Message(); ;//= myHandler.obtainMessage();
-                    msg.obj = "c";
-                    myHandler.sendMessage(msg);
+                    //Message msg = new Message(); ;//= myHandler.obtainMessage();
+                    //msg.obj = "c";
+                    //myHandler.sendMessage(msg);
                     Log.d("SAMPLEHTTP", "SEND? C?");
                 }
                 catch (Exception e) {

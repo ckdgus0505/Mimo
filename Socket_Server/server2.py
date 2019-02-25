@@ -117,10 +117,10 @@ def Client2Server(self, Path):
 def SendList(self, Path):
     cnt = sum([len(files) for r, d, files in os.walk(Path)])
     self.request.send(str(cnt).encode())
-    sleep(0.01)
+    sleep(0.2)
     for root, dirs, files in os.walk(Path):
         for file in files:
-            sleep(0.000001) # 한번 전송할때 하나의 파일이 가게끔 sleep을 걸어줌
+            sleep(0.0001) # 한번 전송할때 하나의 파일이 가게끔 sleep을 걸어줌
             self.request.send(file.encode())
 
 #4. 클라이언트가 지정한 파일 서버 내에서 삭제
