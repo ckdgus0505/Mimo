@@ -142,7 +142,7 @@ def runServer():
     try:
         t = threading.Thread(target=connection, args=())
         t.start()
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        #t.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
  #   try:
  #       server = socketserver.TCPServer((HOST, PORT), MyTcpHandler)
  #       server.serve_forever()
