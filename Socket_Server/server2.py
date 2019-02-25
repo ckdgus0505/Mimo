@@ -43,22 +43,22 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
                 raise
 
         print('40')
-        service_number = self.request.recv(1024)
+        service_number = self.request.recv(1024).decode()
         print('service_number:[%s]' % service_number);
         if (service_number[-1] == '\n'):
             print('43')
             service_number = service_number[:-1]
             print('26')
-        if (service_number.decode() == 'a'):
+        if (service_number == 'a'):
             print('[%s] 파일 클라이언트로 전송 서비스' % self.client_address[0])
             Server2Client(self, Path)
-        elif (service_number.decode() == 'b'):
+        elif (service_number == 'b'):
             print('[%s] 파일 서버로 전송 서비스' % self.client_address[0])
             Client2Server(self, Path)
-        elif (service_number.decode() == 'c'):
+        elif (service_number == 'c'):
             print('[%s] 파일 목록 전송 서비스' % self.client_address[0])
             SendList(self, Path)
-        elif (service_number.decode() == 'd'):
+        elif (service_number == 'd'):
             print('[%s] 파일 삭제 서비스' % self.client_address[0])
             DeleteFile(self, Path)
         print('[%s] 연결 끊김' % self.client_address[0])
