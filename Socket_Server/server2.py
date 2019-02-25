@@ -123,7 +123,7 @@ def Client2Server(self, Path):
     print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0], filename.decode(), data_transferred))
 
 # JAVA,클라이언트 -> 서버 파일 전송 모듈
-def Client2ServerJAVA(self, Path):
+def Client2ServerJava(self, Path):
     print('Client2ServerJAVA START')
     data_transferred = 0
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
