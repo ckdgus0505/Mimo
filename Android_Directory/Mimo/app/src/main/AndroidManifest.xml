@@ -16,13 +16,14 @@
         <activity android:name=".loginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".OpenActivity" />
         <activity android:name=".NewActivity" />
-
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>

@@ -51,6 +51,7 @@ public class loginActivity extends AppCompatActivity {
                 String PASSWORD;
                 Log.d("SAMPLEHTTP",result);
                 try{
+                    boolean state =false;
                     JSONObject root = new JSONObject(result);
                     JSONArray ja = root.getJSONArray("result");
                     inputID = (TextView) findViewById(R.id.inputID);
@@ -62,12 +63,14 @@ public class loginActivity extends AppCompatActivity {
                         PASSWORD = jo.getString("PASSWORD");
                         Log.d("SAMPLEHTTP",ID +" "+PASSWORD);
                         if(inputID.getText().toString().equals(ID) &&inputPW.getText().toString().equals(PASSWORD)){
+                            state = true;
                             Toast.makeText(getApplicationContext(), "ID and PW are correct!", Toast.LENGTH_SHORT).show();
-                            Intent MemoIntent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent MemoIntent = new Intent(getApplicationContext(), Main2Activity.class);
                             startActivityForResult(MemoIntent, 111);
                         }
                     }
-                    Toast.makeText(getApplicationContext(), "ID and PW are incorrect!", Toast.LENGTH_SHORT).show();
+                    if(state == false)
+                        Toast.makeText(getApplicationContext(), "ID and PW are incorrect!", Toast.LENGTH_SHORT).show();
 
 
                 }catch(JSONException e){
