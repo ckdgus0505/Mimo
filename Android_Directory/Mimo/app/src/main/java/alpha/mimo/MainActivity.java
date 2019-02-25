@@ -274,6 +274,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);/// result code sms ok ...
         if(requestCode == 101||requestCode == 102){

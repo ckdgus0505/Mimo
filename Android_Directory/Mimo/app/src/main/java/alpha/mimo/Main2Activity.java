@@ -8,15 +8,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+
+import static android.widget.Toast.LENGTH_LONG;
+import static android.widget.Toast.makeText;
 
 public class Main2Activity extends AppCompatActivity {
+    ArrayList<String> items;
+    ArrayAdapter<String> adapter;
+    ListView memoListView;
     Button btn;
     TextView tv;
     Button buttonSend;
@@ -100,12 +109,13 @@ public class Main2Activity extends AppCompatActivity {
                     socketOut.println("c");
                     this.sleep(5000);
                     String data = socketIn.readLine();
+                    fileList(data);
                     Log.d("SAMPLEHTTP", data+" hi");
-                    data = socketIn.readLine();
-                    Log.d("SAMPLEHTTP", data+" hi");
-                    data = socketIn.readLine();
-                    Log.d("SAMPLEHTTP", data+" hi");
-                    // InputStream의 값을 읽어와서 data에 저장
+//                    data = socketIn.readLine();
+//                    Log.d("SAMPLEHTTP", data+" hi");
+//                    data = socketIn.readLine();
+//                    Log.d("SAMPLEHTTP", data+" hi");
+//                    // InputStream의 값을 읽어와서 data에 저장
                     //String data = socketIn.readLine();
                     // Message 객체를 생성, 핸들러에 정보를 보낼 땐 이 메세지 객체를 이용
                     //Message msg = new Message(); ;//= myHandler.obtainMessage();
@@ -131,6 +141,113 @@ public class Main2Activity extends AppCompatActivity {
 //                    e.printStackTrace();
 //                }
 //            }
+        }
+
+
+//        public void sync(String data){
+//            try{
+//                items = new ArrayList<String>();
+//                adapter = new ArrayAdapter<String>(Main2Activity.this, android.R.layout.simple_list_item_single_choice, items);
+//                memoListView = (ListView) findViewById(R.id.MemoListView);
+//                memoListView.setAdapter(adapter);
+//                memoListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+//                //directory = getFilesDir().getParentFile();
+//                //files = directory.listFiles();
+//                //Log.d("Files", "Size: "+ files.length);
+//                String temp = new String(data);
+//                String stringnum=" ";
+//                int si_filename = 0; //start index of filename;
+//                char a= ' ';
+//                for(int i=0;i<temp.length();i++){
+//                    a= temp.charAt(i);
+//                    if(a<'0' && '9'<a){
+//                        stringnum = temp.substring(0,i);
+//                        si_filename = i;
+//                        break;
+//                    }
+//                }
+//                 int num =    Integer.parseInt(stringnum);
+//                Log.d("SAMPLEHTTP", "num/si_filename="+num+ "/"+si_filename);
+//                //indexOf(String str, int fromIndex)
+//                //Returns the index within this string of the first occurrence of the specified substring, starting at the specified index
+//
+//                int index_mimm;
+//                int s_index=si_filename;
+//
+//                index_mimm = temp.indexOf(".mimm",s_index);
+//                if(index_mimm ==-1) {
+//                    return;// 끝내기.
+//                }
+//                while(true){
+//                    index_mimm = temp.indexOf(".mimm",s_index);
+//                }
+//
+//                for (int i = si_filename; i < temp.length(); i++) {
+//                    //String str = files[i].getName();
+//
+//                    if (str.contains(".mimm")) {
+//                        str = str.substring(5);
+//                        items.add(str);
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                }
+//            }catch(Exception e){
+//                e.printStackTrace();
+//                makeText(this, e.getMessage(), LENGTH_LONG).show();
+//            }
+//        }
+
+        public void fileList(String data){
+            String temp = new String(data);
+            String stringnum=" ";
+            int si_filename = 0; //start index of filename;
+            char a= ' ';
+            for(int i=0;i<temp.length();i++){
+                a= temp.charAt(i);
+                if(a<'0' || '9'<a){
+                    stringnum = temp.substring(0,i);
+                    si_filename = i;
+                    break;
+                }
+            }
+            //System.out.println(stringnum);
+            int num =    Integer.parseInt(stringnum);
+            // System.out.println("num/si_filename="+ num+"/"+si_filename);
+            //Log.d("SAMPLEHTTP", "num/si_filename="+num+ "/"+si_filename);
+            //indexOf(String str, int fromIndex)
+            //Returns the index within this string of the first occurrence of the specified substring, starting at the specified index
+
+
+            items = new ArrayList<String>();
+            adapter = new ArrayAdapter<String>(Main2Activity.this, android.R.layout.simple_list_item_single_choice, items);
+            memoListView = (ListView) findViewById(R.id.MemoListView);
+            memoListView.setAdapter(adapter);
+            memoListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+            int index_mimm;
+            int s_index=si_filename;
+
+            index_mimm = temp.indexOf(".mimm",s_index);
+            if(index_mimm ==-1) {
+                adapter.notifyDataSetChanged();
+                return;// 끝내기.
+            }
+            items.add(temp.substring(s_index,index_mimm));
+//            System.out.println(temp.substring(s_index,index_mimm));
+            index_mimm +=5;//pass .mimm
+            s_index = index_mimm;
+
+            while(true) {
+                index_mimm = temp.indexOf(".mimm",s_index);
+                if(index_mimm ==-1) {
+                    adapter.notifyDataSetChanged();
+                    break;// 끝내기.
+                }
+                items.add(temp.substring(s_index,index_mimm));
+                System.out.println(temp.substring(s_index,index_mimm));
+                index_mimm +=5;//pass .mimm
+                s_index = index_mimm;
+            }
         }
     }
 
