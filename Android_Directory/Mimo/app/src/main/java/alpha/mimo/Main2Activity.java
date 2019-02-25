@@ -50,14 +50,15 @@ public class Main2Activity extends AppCompatActivity {
         myHandler = new MyHandler();
         myThread = new MyThread();
         myThread.start();
-        socketOut.print("c");
+        socketOut.println("c");
+        Log.d("SAMPLEHTTP", "send C");
 
         buttonSend = (Button) findViewById(R.id.buttonSend);
         //= (TextView) findViewById(R.id.tv);
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                socketOut.print("c");
+                socketOut.println("c");
                 Log.d("SAMPLEHTTP", "CLICK");
             }
         });

@@ -23,8 +23,10 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
         print('[%s] 연결됨' % self.client_address[0])
         print('24')
         ID = self.request.recv(21).decode()
+        print('ID:[%s]' % ID);
         print('26')
         Path = './mimms/'+ID+'/'
+        print('Path:[%s]' % Path);
         print('28')
 
         try:  # make directory if not exist
