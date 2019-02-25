@@ -27,8 +27,11 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
         print('ID:[%s]' % ID[-1]);
         if(ID[-1]=='\n'):
             print('23')
-        print('26')
-        Path = './mimms/'+ID+'/'
+            ID = ID[:-1]
+            print('26')
+        else:
+            Path = './mimms/'+ID+'/'
+        print('ID:[%s]' % ID);
         print('Path:[%s]' % Path);
         print('28')
 
