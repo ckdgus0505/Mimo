@@ -1,5 +1,6 @@
 package alpha.mimo;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.os.Handler;
 import android.os.Message;
@@ -50,7 +51,11 @@ public class Main2Activity extends AppCompatActivity {
         myHandler = new MyHandler();
         myThread = new MyThread();
         myThread.start();
-        socketOut.println("c");
+
+        Intent intent  = getIntent();
+        String ID =processIntent(intent);
+
+        socketOut.println(ID);
         Log.d("SAMPLEHTTP", "send C");
 
         buttonSend = (Button) findViewById(R.id.buttonSend);
@@ -72,6 +77,14 @@ public class Main2Activity extends AppCompatActivity {
 //                socketOut.println(123);
 //            }
 //        });
+    }
+    private String processIntent(Intent intent){
+        if(intent !=null){
+            Bundle bundle = intent.getExtras();
+            String ID = (String)bundle.getString("ID");
+            return ID;
+        }
+        return "FALSE";
     }
     class MyThread extends Thread {
         @Override

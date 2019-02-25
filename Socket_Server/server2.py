@@ -43,6 +43,10 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
                 raise
 
         service_number = self.request.recv(1024)
+        if (service_number[-1] == '\n'):
+            print('23')
+            service_number = service_number[:-1]
+            print('26')
         if (service_number.decode() == 'a'):
             print('[%s] 파일 클라이언트로 전송 서비스' % self.client_address[0])
             Server2Client(self, Path)
@@ -138,6 +142,7 @@ def runServer():
     try:
         t = threading.Thread(target=connection, args=())
         t.start()
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
  #   try:
  #       server = socketserver.TCPServer((HOST, PORT), MyTcpHandler)
  #       server.serve_forever()

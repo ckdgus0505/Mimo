@@ -66,6 +66,7 @@ public class loginActivity extends AppCompatActivity {
                             state = true;
                             Toast.makeText(getApplicationContext(), "ID and PW are correct!", Toast.LENGTH_SHORT).show();
                             Intent MemoIntent = new Intent(getApplicationContext(), Main2Activity.class);
+                            MemoIntent.putExtra("ID", inputID.getText().toString());
                             startActivityForResult(MemoIntent, 111);
                         }
                     }
