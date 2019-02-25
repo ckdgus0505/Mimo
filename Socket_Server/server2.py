@@ -55,12 +55,16 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
         elif (service_number == 'b'):
             print('[%s] 파일 서버로 전송 서비스' % self.client_address[0])
             Client2Server(self, Path)
+        elif (service_number == 'j'):
+            print('[%s] 파일 서버로 전송 서비스(java)' % self.client_address[0])
+            Client2ServerJava(self, Path)
         elif (service_number == 'c'):
             print('[%s] 파일 목록 전송 서비스' % self.client_address[0])
             SendList(self, Path)
         elif (service_number == 'd'):
             print('[%s] 파일 삭제 서비스' % self.client_address[0])
             DeleteFile(self, Path)
+
         print('[%s] 연결 끊김' % self.client_address[0])
 
 
@@ -108,6 +112,40 @@ def Client2Server(self, Path):
             raise
 
     with open(Path + filename.decode(), 'wb') as f:  # save file at directory
+        try:
+            while data:
+                f.write(data)
+                data_transferred += len(data)
+                data = self.request.recv(1024)
+        except Exception as e:
+            print(e)
+
+    print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0], filename.decode(), data_transferred))
+
+# JAVA,클라이언트 -> 서버 파일 전송 모듈
+def Client2ServerJAVA(self, Path):
+    print('Client2ServerJAVA START')
+    data_transferred = 0
+    filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+    print('filename=[%s]', filename)
+    print('filename_decode=[%s]', filename.decode())
+    data = self.request.recv(1024)
+    print('data=[%s]', data)
+    print('data_decode=[%s]', data.decode())
+
+
+    if not data:
+        print('[%s] %s 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename.decode()))
+        return
+    try:  # make directory if not exist
+        if not (os.path.isdir(Path)):
+            os.makedirs(os.path.join(Path))
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            print("Failed to create directory!!!!!")
+            raise
+
+    with open(Path + filename.decode()[:-1], 'wb') as f:  # save file at directory
         try:
             while data:
                 f.write(data)

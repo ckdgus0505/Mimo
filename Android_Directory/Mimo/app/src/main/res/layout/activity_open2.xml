@@ -49,6 +49,7 @@
                 android:textColorHint="#000000" />
 
             <Button
+                android:id="@+id/buttonSync"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

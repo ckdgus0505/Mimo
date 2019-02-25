@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class Open2Activity extends AppCompatActivity {
     private final String ip = "58.120.197.22";
     private OpenHandler openHandler;
     private OpenThread openThread;
+    Button buttonSync;
 
     TextView title;
     String FileName;
@@ -51,11 +53,23 @@ public class Open2Activity extends AppCompatActivity {
         // 분기점.
 
         openHandler = new OpenHandler();
-        openThread = new OpenThread();
+        openThread = new OpenThread('a');
         openThread.start();
         try {
             openThread.join();	// th1의 작업이 끝날 때까지 기다린다
         } catch(InterruptedException e) {}
+
+        buttonSync = (Button)findViewById(R.id.buttonSync);
+        buttonSync.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                openHandler = new OpenHandler();
+                openThread = new OpenThread('j');
+                openThread.start();
+            }
+        });
+
+
 
     }
     private String processIntent(Intent intent){
@@ -68,6 +82,11 @@ public class Open2Activity extends AppCompatActivity {
 
 
     class OpenThread extends Thread {
+        char ch;
+        public OpenThread(char ch) {
+            this.ch = ch;
+        }
+
         @Override
         public void run() {
 
@@ -83,20 +102,37 @@ public class Open2Activity extends AppCompatActivity {
 
                 socketOut.println(ID);
                 this.sleep(500);
-                socketOut.println("a");
-                Log.d("SAMPLEHTTP","a");
-                this.sleep(500);
-                socketOut.println(FileName);
-                while ((str=socketIn.readLine()) != null){
-                    sb.append(str+"\n");
-                    Log.d("SAMPLEHTTP","INPUT="+ str);
+                if(this.ch =='a'){
+                    socketOut.println("a");
+                    Log.d("SAMPLEHTTP","a");
+                    this.sleep(500);
+                    socketOut.println(FileName);
+                    while ((str=socketIn.readLine()) != null){
+                        sb.append(str+"\n");
+                        Log.d("SAMPLEHTTP","INPUT="+ str);
+                    }
+                    Message msg = openHandler.obtainMessage();
+                    msg.obj = sb.toString();
+                    openHandler.sendMessage(msg);
+                }
+                else if(this.ch =='j'){
+                    socketOut.println("j");
+                    Log.d("SAMPLEHTTP","j");
+                    this.sleep(500);
+                    socketOut.println(FileName);
+                    this.sleep(500);
+
+                    // 달라...
+                    str = String.valueOf(et.getText());
+                    socketOut.println(str);
+//
+//                    Message msg = openHandler.obtainMessage();
+//                    msg.obj = sb.toString();
+//                    openHandler.sendMessage(msg);
+                    this.sleep(500);
                 }
 
-//                socketIn.close();
-//                Message msg = openHandler.obtainMessage();
-//                msg.obj = sb.toString();
-//                openHandler.sendMessage(msg);
-
+                Log.d("SAMPLEHTTP","SUCCESS");
 
                 socketIn.close();
                 socketOut.close();
@@ -122,6 +158,7 @@ public class Open2Activity extends AppCompatActivity {
 
     public void onButtonSync(View view) {
         try {
+
 //            String dyStr = "";
 //
 //            BufferedWriter bw = new BufferedWriter(new FileWriter(getFilesDir() + FileName, false));
