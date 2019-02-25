@@ -24,6 +24,9 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
         print('24')
         ID = self.request.recv(21).decode()
         print('ID:[%s]' % ID);
+        print('ID:[%s]' % ID[-1]);
+        if(ID[-1]=='\n'):
+            print('23')
         print('26')
         Path = './mimms/'+ID+'/'
         print('Path:[%s]' % Path);
