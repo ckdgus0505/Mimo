@@ -67,8 +67,13 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
 # 1,서버 -> 클라이언트 파일 전송 모듈
 def Server2Client(self, Path):
     data_transferred = 0
+    print('server2client ')
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
     filename = filename.decode()  # 파일이름 이진 바이트 스트림 데이터를 일반 문자열로 변환
+    if (filename[-1] == '\n'):
+        filename = filename[:-1]
+        print('26')
+    print('filename[%s] ' % filename)
     if not exists(Path + filename):  # 파일이 해당 디렉터리에 존재하지 않으면
         return  # handle()함수를 빠져 나온다.
 

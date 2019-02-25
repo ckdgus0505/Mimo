@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             makeText(getApplicationContext(), "선택되지 않았습니다.", LENGTH_SHORT).show();
         }
-    }
+}
 
     public void onButtonDelete(View view)
     {
