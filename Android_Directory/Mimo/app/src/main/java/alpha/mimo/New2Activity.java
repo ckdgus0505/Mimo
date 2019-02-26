@@ -44,7 +44,7 @@ public class New2Activity extends AppCompatActivity {
         processIntent(intent);
 
     }
-    private void onButtonSave(View view){
+    public void onButtonSave(View view){
         try {
             title = editTitle.getText().toString();
             content = editContent.getText().toString();

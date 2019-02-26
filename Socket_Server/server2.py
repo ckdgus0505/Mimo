@@ -33,10 +33,7 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
             if e.errno != errno.EEXIST:
                 print("Failed to create directory!!!!!")
                 raise
-
-        print('40')
         service_number = self.request.recv(1024).decode()
-        print('service_number:[%s]' % service_number);
         if (service_number[-1] == '\n'):
             service_number = service_number[:-1]
         if (service_number == 'a'):

@@ -125,8 +125,15 @@ public class Main2Activity extends AppCompatActivity {
     class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            items.add(msg.obj.toString());
-            adapter.notifyDataSetChanged();
+            if(msg.obj.toString().equals("*clearAll*")){
+                items.clear();
+                adapter.clear();
+                adapter.notifyDataSetChanged();
+            }
+            else{
+                items.add(msg.obj.toString());
+                adapter.notifyDataSetChanged();
+            }
         }
     }
     class DeleteHandler extends Handler {
