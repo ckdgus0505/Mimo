@@ -110,10 +110,6 @@ public class SocketThread extends Thread {
         char a= ' ';
 
 
-        Message msg = handler.obtainMessage();
-        msg.obj = "*clearAll*";
-        handler.sendMessage(msg);
-
         for(int i=0;i<temp.length();i++){
             a= temp.charAt(i);
             if(a<'0' || '9'<a){
@@ -129,10 +125,11 @@ public class SocketThread extends Thread {
 
         index_mimm = temp.indexOf(".mimm",s_index);
         if(index_mimm ==-1) {
-            //adapter.notifyDataSetChanged();
             return;// 끝내기.
         }
         index_mimm +=5;//pass .mimm
+
+        Message msg = handler.obtainMessage();
         msg.obj = temp.substring(s_index,index_mimm);
         handler.sendMessage(msg);
 //            System.out.println(temp.substring(s_index,index_mimm));
@@ -145,6 +142,9 @@ public class SocketThread extends Thread {
                 break;// 끝내기.
             }
             index_mimm +=5;
+            Log.d("SAMPLEHTTP","EHWOFWHEFO???");
+
+
             msg = handler.obtainMessage();
             msg.obj = temp.substring(s_index,index_mimm);
             handler.sendMessage(msg);

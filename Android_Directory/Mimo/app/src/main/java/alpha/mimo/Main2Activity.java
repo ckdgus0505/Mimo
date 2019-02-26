@@ -125,15 +125,9 @@ public class Main2Activity extends AppCompatActivity {
     class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.obj.toString().equals("*clearAll*")){
-                items.clear();
-                adapter.clear();
-                adapter.notifyDataSetChanged();
-            }
-            else{
                 items.add(msg.obj.toString());
                 adapter.notifyDataSetChanged();
-            }
+                Log.d("SAMPLEHTTP","YAYAYA2");
         }
     }
     class DeleteHandler extends Handler {
@@ -149,6 +143,7 @@ public class Main2Activity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);/// result code sms ok ...
         if(requestCode == 101||requestCode == 102){
+            items.clear();
             socketThread = new SocketThread(ID,'c',null,null,myHandler);
             socketThread.start();
             try {
