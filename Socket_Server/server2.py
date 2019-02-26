@@ -152,6 +152,7 @@ def Client2ServerJava(self, Path):
                 f.write(data)
                 data_transferred += len(data)
                 data = self.request.recv(1024)
+                data =data[:-1]
         except Exception as e:
             print(e)
 
@@ -169,10 +170,11 @@ def SendList(self, Path):
 
 #4. 클라이언트가 지정한 파일 서버 내에서 삭제
 def DeleteFile(self, Path):
-    filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
-
-    if os.path.isfile(Path + filename.decode()):
-        os.remove(Path + filename.decode())
+    filename = self.request.recv(1024).decode()  # 클라이언트로 부터 파일이름을 전달받음
+    if (filename[-1] == '\n'):
+        filename = filename[:-1]
+    if os.path.isfile(Path + filename):
+        os.remove(Path + filename)
         self.request.send('delete complete'.encode())
     else:
         self.request.send('no file exists'.encode())

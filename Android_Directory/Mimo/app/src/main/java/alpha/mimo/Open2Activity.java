@@ -125,10 +125,6 @@ public class Open2Activity extends AppCompatActivity {
                     // 달라...
                     str = String.valueOf(et.getText());
                     socketOut.println(str);
-//
-//                    Message msg = openHandler.obtainMessage();
-//                    msg.obj = sb.toString();
-//                    openHandler.sendMessage(msg);
                     this.sleep(500);
                 }
 

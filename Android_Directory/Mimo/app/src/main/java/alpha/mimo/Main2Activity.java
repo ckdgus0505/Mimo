@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -33,6 +34,7 @@ public class Main2Activity extends AppCompatActivity {
     Button buttonSend;
     String fileName;
     String ID;
+    Button buttonDelete;
 
     //  TCP연결 관련
     private Socket clientSocket;
@@ -61,7 +63,7 @@ public class Main2Activity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         myHandler = new MyHandler();
-        myThread = new MyThread();
+        myThread = new MyThread('c');
         myThread.start();
         try {
             myThread.join();	// th1의 작업이 끝날 때까지 기다린다
@@ -75,6 +77,19 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
         Log.d("SAMPLEHTTP", "send C");
+
+        buttonDelete = (Button)findViewById(R.id.buttonDelete);
+
+        buttonDelete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                myThread = new MyThread('d');
+                myThread.start();
+                try {
+                    myThread.join();	// th1의 작업이 끝날 때까지 기다린다
+                } catch(InterruptedException e) {}
+            }
+        });
 
         buttonSend = (Button) findViewById(R.id.buttonSend);
         //= (TextView) findViewById(R.id.tv);
@@ -120,6 +135,11 @@ public class Main2Activity extends AppCompatActivity {
         return "FALSE";
     }
     class MyThread extends Thread {
+        char ch;
+        public MyThread(char ch) {
+            this.ch = ch;
+        }
+
         @Override
         public void run() {
 
@@ -131,11 +151,21 @@ public class Main2Activity extends AppCompatActivity {
                     String ID =processIntent(intent);
                     socketOut.println(ID);
                     this.sleep(500);
-                    socketOut.println("c");
-                    //this.sleep(5000);
-                    String data = socketIn.readLine();
-                    Log.d("SAMPLEHTTP", data+" hi");
-                    fileList(data);
+                    if(this.ch =='c'){
+                        socketOut.println("c");
+
+                        String data = socketIn.readLine();
+                        Log.d("SAMPLEHTTP", data+" hi");
+                        fileList(data);
+                    }
+                    else if(this.ch =='d'){
+                        socketOut.println("d");
+                        this.sleep(300);
+                        socketOut.println(fileName);
+                        String resultmessage =socketIn.readLine();
+                        Toast.makeText(getApplicationContext(), "서버로부터 응답:"+resultmessage, Toast.LENGTH_LONG).show();
+                    }
+
                     socketIn.close();
                     socketOut.close();
                     clientSocket.close();

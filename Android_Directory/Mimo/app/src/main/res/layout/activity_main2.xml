@@ -118,6 +118,7 @@
                         android:textStyle="bold" />
 
                     <Button
+                        android:id="@+id/buttonDelete"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
