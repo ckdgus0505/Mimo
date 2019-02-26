@@ -62,6 +62,20 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/back"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:onClick="onButtonBack"
+                android:text="뒤로가기"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
     </LinearLayout>

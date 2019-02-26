@@ -38,15 +38,6 @@ public class MainActivity extends AppCompatActivity {
     String fileName;
     File directory;
     File[] files;
-    File objectFile;
-    Socket sock;
-    int port;
-    EditText inputOrder;
-    EditText inputFileName;
-    EditText inputUrl;
-    Button buttonSend;
-    BufferedReader networkReader;
-    BufferedWriter networkWriter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,129 +56,9 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        buttonSend = (Button)findViewById(R.id.buttonSend);
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inputFileName = (EditText) findViewById(R.id.inputFileName);
-                if (inputFileName.getText().toString() != null
-                        || !inputFileName.getText().toString().equals("")) {
-                    PrintWriter out = new PrintWriter(networkWriter,true);
-
-                    String return_msg = inputFileName.getText().toString();
-                    Log.d("MainActivity", "통과return_msg"+return_msg.substring(0,return_msg.length()-1));
-                    out.println(return_msg.substring(0,return_msg.length()));
-                }
-            }
-        });
-
-
     }
 
-    public void onButtonConnect(View view)
-    {
-        inputUrl = (EditText)findViewById(R.id.inputUrl) ;
-        String addr = inputUrl.getText().toString().trim();
-        ConnectThread thread = new ConnectThread(addr);
-        thread.start();
-//        port =1154;
-//        Log.d("myerror", "result:");
-//        try{
-//            Log.d("myerror", "result:1");
-//            sock = new Socket("58.228.40.209", port); // test...
-//            Log.d("myerror", "result:2");
-//            boolean tf = sock.isConnected();
-//            Log.d("myerror", "result:3"+tf);
-//            Toast.makeText(this, "result : " + tf, Toast.LENGTH_LONG).show();
-//        }catch (Exception e){
-//            Log.d("myerror", "result:-1");
-//            e.printStackTrace();
-//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-//        }
-    }
-
-    class ConnectThread extends Thread {
-        String hostname;
-
-        public ConnectThread(String addr) {
-            hostname = addr;
-        }
-
-        public void run() {
-
-            try {
-                String ID = "abc";
-
-                inputOrder= (EditText)findViewById(R.id.inputOrder);
-                inputFileName= (EditText)findViewById(R.id.inputFileName);
-                String testValue;
-                Log.d("MainActivity", "통과");
-                int port = 1154;
-
-                Socket sock = new Socket(hostname, port);
-                DataOutputStream dout=new DataOutputStream(sock.getOutputStream());
-                DataInputStream din=new DataInputStream(sock.getInputStream());
-                networkReader= new BufferedReader(new InputStreamReader(sock.getInputStream()));
-                networkWriter = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
-                //String testValue = "a";
-                testValue = "abc";
-                dout.writeUTF(testValue);
-                dout=new DataOutputStream(sock.getOutputStream());
-                testValue= inputOrder.getText().toString();
-                dout.writeUTF(testValue);
-                Log.d("MainActivity", "통과2");
-                //dout.writeUTF(testValue);
-
-                //dout.flush();
-                Log.d("MainActivity", "통과3");
-                showToast("다운로드받을 파일이름을 입력하세요.");
-                //Toast.makeText(getApplicationContext(), "다운로드 받을 파일이름을 입력하세요!", LENGTH_SHORT).show();
-                //Toast.makeText(this, "다운로드 받을 파일이름을 입력하세요!", Toast.LENGTH_LONG).show();
-                Log.d("MainActivity", "통과4");
-                String filename = networkReader.readLine();
-                Log.d("MainActivity", "통과5" + filename);
-
-                Log.d("MainActivity", "통과6");
-                ObjectInputStream instream = new ObjectInputStream(sock.getInputStream());
-                String obj = (String) instream.readObject();
-                Log.d("MainActivity", "통과서버에서 받은 메시지 : " + obj);
-
-                dout.close();
-                //PrintWriter out = new PrintWriter(sock.getOutputStream());
-                //out.print("a");
-                //out.print(encodeValue);
-
-                //BufferedWriter in = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "EUC_KR"));
-                //in.readLine();
-                //BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-
-                //ObjectOutputStream outstream = new ObjectOutputStream(sock.getOutputStream());
-                //outstream.writeObject(testValue);// test
-                //outstream.flush();
-
-                //byte[] encodeValue = Base64.encode(testValue.getBytes(), Base64.DEFAULT);
-                //String str = new String(DatatypeConverter.parseBase64Binary("user:123"));
-
-
-                Log.d("MainActivity", "Passing encodeValue = " + testValue.toString());
-
-                Log.d("MainActivity", "통과2");
- //               ObjectInputStream instream = new ObjectInputStream(sock.getInputStream());
-//                String obj = (String) instream.readObject();
-////
-///               Log.d("MainActivity", "서버에서 받은 메시지 : " + obj);
-
-                sock.close();
-
-            } catch(Exception ex) {
-                ex.printStackTrace();
-            }
-
-        }
-    }
     public void showToast(final String toast) { runOnUiThread(new Runnable() { public void run() { Toast.makeText(getApplicationContext(),toast, Toast.LENGTH_SHORT).show(); } }); }
-
-
 
     public void onButtonNew(View view)
     {
@@ -195,19 +66,6 @@ public class MainActivity extends AppCompatActivity {
         //MemoIntent.putExtra("fileName", fileName);
         startActivityForResult(MemoIntent, 101);
     }
-//    public void onButtonSend(View view)
-//    {
-//        inputFileName = (EditText) findViewById(R.id.inputFileName);
-//        if (inputFileName.getText().toString() != null
-//
-//                || !inputFileName.getText().toString().equals("")) {
-//            PrintWriter out = new PrintWriter(networkWriter,true);
-//
-//            String return_msg = inputFileName.getText().toString();
-//            out.println(return_msg);
-//
-//        }
-//    }
 
     public void onButtonOpen(View view)
     {

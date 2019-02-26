@@ -21,18 +21,10 @@ Path = ''
 class MyTcpHandler(socketserver.BaseRequestHandler):
     def handle(self):
         print('[%s] 연결됨' % self.client_address[0])
-        print('24')
         ID = self.request.recv(21).decode()
-        print('ID:[%s]' % ID);
-        print('ID:[%s]' % ID[-1]);
         if(ID[-1]=='\n'):
-            print('23')
             ID = ID[:-1]
-            print('26')
         Path = './mimms/'+ID+'/'
-        print('ID:[%s]' % ID);
-        print('Path:[%s]' % Path);
-        print('28')
 
         try:  # make directory if not exist
             if not (os.path.isdir(Path)):
@@ -46,9 +38,7 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
         service_number = self.request.recv(1024).decode()
         print('service_number:[%s]' % service_number);
         if (service_number[-1] == '\n'):
-            print('43')
             service_number = service_number[:-1]
-            print('26')
         if (service_number == 'a'):
             print('[%s] 파일 클라이언트로 전송 서비스' % self.client_address[0])
             Server2Client(self, Path)
@@ -76,7 +66,6 @@ def Server2Client(self, Path):
     filename = filename.decode()  # 파일이름 이진 바이트 스트림 데이터를 일반 문자열로 변환
     if (filename[-1] == '\n'):
         filename = filename[:-1]
-        print('26')
     print('filename[%s] ' % filename)
     if not exists(Path + filename):  # 파일이 해당 디렉터리에 존재하지 않으면
         return  # handle()함수를 빠져 나온다.
@@ -92,14 +81,11 @@ def Server2Client(self, Path):
 
     print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0],filename, data_transferred))
 
-
 # 2,클라이언트 -> 서버 파일 전송 모듈
 def Client2Server(self, Path):
     data_transferred = 0
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
-
     data = self.request.recv(1024)
-
     if not data:
         print('[%s] %s 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename.decode()))
         return
@@ -124,16 +110,10 @@ def Client2Server(self, Path):
 
 # JAVA,클라이언트 -> 서버 파일 전송 모듈
 def Client2ServerJava(self, Path):
-    print('Client2ServerJAVA START')
+
     data_transferred = 0
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
-    print('filename=[%s]', filename)
-    print('filename_decode=[%s]', filename.decode())
     data = self.request.recv(1024)
-    print('data=[%s]', data)
-    print('data[:-1] nondecode=[%s]', data[:-1])
-    print('data_decode=[%s]', data.decode())
-
 
     if not data:
         print('[%s] %s 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename.decode()))
@@ -190,7 +170,6 @@ def runServer():
     try:
         t = threading.Thread(target=connection, args=())
         t.start()
-        #t.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
  #   try:
  #       server = socketserver.TCPServer((HOST, PORT), MyTcpHandler)
  #       server.serve_forever()

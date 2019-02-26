@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.StrictMode;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,21 +35,17 @@ public class Main2Activity extends AppCompatActivity {
     Button buttonSend;
     String fileName;
     String ID;
-    Button buttonDelete;
-
-    //  TCP연결 관련
-    private Socket clientSocket;
-    private BufferedReader socketIn;
-    private PrintWriter socketOut;
-    private int port = 1154;
-    private final String ip = "58.120.197.22";
     private MyHandler myHandler;
-    private MyThread myThread;
+    private DeleteHandler deleteHandler;
+    private  SocketThread socketThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        Intent intent  = getIntent();
+        processIntent(intent);
 
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(Main2Activity.this, android.R.layout.simple_list_item_single_choice, items);
@@ -63,10 +60,12 @@ public class Main2Activity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         myHandler = new MyHandler();
-        myThread = new MyThread('c');
-        myThread.start();
-        try {
-            myThread.join();	// th1의 작업이 끝날 때까지 기다린다
+        deleteHandler = new DeleteHandler();
+
+        socketThread = new SocketThread(ID,'c',null,null,myHandler);
+        socketThread.start();
+                try {
+            socketThread.join();	// th1의 작업이 끝날 때까지 기다린다
         } catch(InterruptedException e) {}
 
         memoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,30 +75,22 @@ public class Main2Activity extends AppCompatActivity {
                 makeText(getApplicationContext(),items.get(position).toString(), LENGTH_LONG).show();
             }
         });
-        Log.d("SAMPLEHTTP", "send C");
+    }
 
-        buttonDelete = (Button)findViewById(R.id.buttonDelete);
-
-        buttonDelete.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                myThread = new MyThread('d');
-                myThread.start();
-                try {
-                    myThread.join();	// th1의 작업이 끝날 때까지 기다린다
-                } catch(InterruptedException e) {}
-            }
-        });
-
-        buttonSend = (Button) findViewById(R.id.buttonSend);
-        //= (TextView) findViewById(R.id.tv);
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                socketOut.println("c");
-                Log.d("SAMPLEHTTP", "CLICK");
-            }
-        });
+    public void onButtonNew(View view)
+    {
+        Intent MemoIntent = new Intent(this, New2Activity.class);
+        MemoIntent.putExtra("fileName", fileName);
+        MemoIntent.putExtra("ID", ID);
+        startActivityForResult(MemoIntent, 101);
+    }
+    public void onButtonDelete(View view)
+    {
+        socketThread = new SocketThread(ID,'d',fileName,null,deleteHandler);
+        socketThread.start();
+        try {
+            socketThread.join();	// th1의 작업이 끝날 때까지 기다린다
+        } catch(InterruptedException e) {}
     }
 
     public void onButtonOpen(View view)
@@ -117,8 +108,7 @@ public class Main2Activity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-            overridePendingTransition(0, 0);
-            finish(); //test
+
         }
 
         else {
@@ -126,103 +116,9 @@ public class Main2Activity extends AppCompatActivity {
         }
     }
 
-    private String processIntent(Intent intent){
+    private void processIntent(Intent intent){
         if(intent !=null){
-            Bundle bundle = intent.getExtras();
-            ID = (String)bundle.getString("ID");
-            return ID;
-        }
-        return "FALSE";
-    }
-    class MyThread extends Thread {
-        char ch;
-        public MyThread(char ch) {
-            this.ch = ch;
-        }
-
-        @Override
-        public void run() {
-
-                try {
-                    clientSocket = new Socket(ip, port);
-                    socketIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    socketOut = new PrintWriter(clientSocket.getOutputStream(), true);
-                    Intent intent  = getIntent();
-                    String ID =processIntent(intent);
-                    socketOut.println(ID);
-                    this.sleep(500);
-                    if(this.ch =='c'){
-                        socketOut.println("c");
-
-                        String data = socketIn.readLine();
-                        Log.d("SAMPLEHTTP", data+" hi");
-                        fileList(data);
-                    }
-                    else if(this.ch =='d'){
-                        socketOut.println("d");
-                        this.sleep(300);
-                        socketOut.println(fileName);
-                        String resultmessage =socketIn.readLine();
-                        Toast.makeText(getApplicationContext(), "서버로부터 응답:"+resultmessage, Toast.LENGTH_LONG).show();
-                    }
-
-                    socketIn.close();
-                    socketOut.close();
-                    clientSocket.close();
-                }
-                catch (Exception e) {
-                    Log.d("SAMPLEHTTP","ERROR");
-                    e.printStackTrace();
-                }
-        }
-        public void fileList(String data){
-            String temp = new String(data);
-            String stringnum=" ";
-            int si_filename = 0; //start index of filename;
-            char a= ' ';
-            for(int i=0;i<temp.length();i++){
-                a= temp.charAt(i);
-                if(a<'0' || '9'<a){
-                    stringnum = temp.substring(0,i);
-                    si_filename = i;
-                    break;
-                }
-            }
-            //System.out.println(stringnum);
-            int num =    Integer.parseInt(stringnum);
-            // System.out.println("num/si_filename="+ num+"/"+si_filename);
-            //Log.d("SAMPLEHTTP", "num/si_filename="+num+ "/"+si_filename);
-            //indexOf(String str, int fromIndex)
-            //Returns the index within this string of the first occurrence of the specified substring, starting at the specified index
-
-            int index_mimm;
-            int s_index=si_filename;
-
-            index_mimm = temp.indexOf(".mimm",s_index);
-            if(index_mimm ==-1) {
-                adapter.notifyDataSetChanged();
-                return;// 끝내기.
-            }
-            index_mimm +=5;//pass .mimm
-            Message msg = myHandler.obtainMessage();
-            msg.obj = temp.substring(s_index,index_mimm);
-            myHandler.sendMessage(msg);
-//            System.out.println(temp.substring(s_index,index_mimm));
-
-            s_index = index_mimm;
-
-            while(true) {
-                index_mimm = temp.indexOf(".mimm",s_index);
-                if(index_mimm ==-1) {
-                    break;// 끝내기.
-                }
-                index_mimm +=5;
-                msg = myHandler.obtainMessage();
-                msg.obj = temp.substring(s_index,index_mimm);
-                myHandler.sendMessage(msg);
-                ;//pass .mimm
-                s_index = index_mimm;
-            }
+            ID = intent.getStringExtra("ID");
         }
     }
 
@@ -233,6 +129,24 @@ public class Main2Activity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
+    class DeleteHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            Toast.makeText(getApplicationContext(), "서버로부터 응답:"+msg.obj.toString(), Toast.LENGTH_LONG).show();
+            int pos = memoListView.getCheckedItemPosition();
+            items.remove(pos);
+            adapter.notifyDataSetChanged();
+        }
+    }
 
-
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);/// result code sms ok ...
+        if(requestCode == 101||requestCode == 102){
+            socketThread = new SocketThread(ID,'c',null,null,myHandler);
+            socketThread.start();
+            try {
+                socketThread.join();	// th1의 작업이 끝날 때까지 기다린다
+            } catch(InterruptedException e) {}
+        }
+    }
 }

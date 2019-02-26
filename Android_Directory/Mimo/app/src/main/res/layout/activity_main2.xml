@@ -40,52 +40,15 @@
             <ListView
                 android:id="@+id/MemoListView"
                 android:layout_width="match_parent"
-                android:layout_height="184dp"></ListView>
+                android:layout_weight="5"
+                android:layout_height="0dp"></ListView>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="40dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/inputUrl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="url 입력"
-                    android:text="172.30.1.51" />
-
-                <EditText
-                    android:id="@+id/inputFileName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="파일 명 입력" />
-
-                <EditText
-                    android:id="@+id/inputOrder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="명령어를 입력해주세요" />
-
-                <Button
-                    android:id="@+id/buttonConnect"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimaryDark"
-                    android:onClick="onButtonConnect"
-                    android:text="인터넷연결"
-                    android:textColor="#ffffff"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -131,20 +94,6 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/buttonSend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorAccent"
-                    android:onClick="onButtonSend"
-                    android:text="전송"
-                    android:textColor="#ffffff"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
 
             </LinearLayout>
 
