@@ -1,4 +1,3 @@
-import socketserver
 import socket
 import os
 from os.path import exists
@@ -170,7 +169,6 @@ try:
     # 멀티 커넥션을 위해 accept할 때마다 쓰레드를 생성하여 연결 요청을 처리한다.
     while True:
         conn, addr = s.accept()
-        print(addr[0])
         t = threading.Thread(target=on_new_client, args=(conn, addr))
         t.start()
 
