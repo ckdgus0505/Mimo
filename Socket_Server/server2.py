@@ -17,7 +17,6 @@ def on_new_client(conn, addr):
     ID = conn.recv(21).decode()
     if(ID[-1]=='\n'):
         ID = ID[:-1]
-    print('[%s] 연결됨' % ID)
     Path = './mimms/' + ID + '/'
 
     try:  # make directory if not exist
@@ -28,20 +27,23 @@ def on_new_client(conn, addr):
             print("Failed to create directory!!!!!")
             raise
 
-    service_number = conn.recv(1024)
-    if (service_number.decode() == 'a'):
+    service_number = conn.recv(1024).decode();
+    if (service_number[-1] == '\n'):
+        service_number = service_number[:-1]
+
+    if (service_number == 'a'):
         print('[%s] 파일 클라이언트로 전송 서비스' % addr[0])
         Server2Client(conn, Path)
-    elif (service_number.decode() == 'b'):
+    elif (service_number == 'b'):
         print('[%s] 파일 서버로 전송 서비스' % addr[0])
         Client2Server(conn, Path)
-    elif (service_number.decode() == 'c'):
+    elif (service_number == 'c'):
         print('[%s] 파일 목록 전송 서비스' % addr[0])
         SendList(conn, Path)
-    elif (service_number.decode() == 'j'):
+    elif (service_number == 'j'):
         print('[%s] 파일 목록 전송 서비스(java)' % addr[0])
         SendList(conn, Path)
-    elif (service_number.decode() == 'd'):
+    elif (service_number == 'd'):
         print('[%s] 파일 삭제 서비스' % addr[0])
         DeleteFile(conn, Path)
 

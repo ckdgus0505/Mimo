@@ -104,7 +104,7 @@ def Client2Server(conn, Path):
 def Client2ServerJava(self, Path):
 
     data_transferred = 0
-    filename = conn.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+    filename = conn.recv(1024).decode()[:-1]  # 클라이언트로 부터 파일이름을 전달받음
     data = conn.recv(1024)
 
     if not data:
@@ -118,7 +118,7 @@ def Client2ServerJava(self, Path):
             print("Failed to create directory!!!!!")
             raise
 
-    with open(Path + filename.decode()[:-1], 'wb') as f:  # save file at directory
+    with open(Path + filename, 'wb') as f:  # save file at directory
         try:
             while data:
                 f.write(data)
