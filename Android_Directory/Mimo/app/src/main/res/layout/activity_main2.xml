@@ -1,103 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Main2Activity">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="메모 목록"
+            android:textColor="#000000"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text="메모 목록"
-                android:textColor="#000000"
-                android:textSize="30dp"
-                android:textStyle="bold" />
-        </LinearLayout>
+    <ListView
+        android:id="@+id/MemoListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Title"
+        android:layout_above="@+id/ButtonView"></ListView>
 
+    <LinearLayout
+        android:id="@+id/ButtonView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical">
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonNew"
+            android:text="생성"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-            <ListView
-                android:id="@+id/MemoListView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"></ListView>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonOpen"
+            android:text="열기"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="40dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:background="@color/colorPrimaryDark"
-                        android:onClick="onButtonNew"
-                        android:text="생성"
-                        android:textColor="#ffffff"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:background="@color/colorPrimaryDark"
-                        android:onClick="onButtonOpen"
-                        android:text="열기"
-                        android:textColor="#ffffff"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/buttonDelete"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:background="@color/colorPrimaryDark"
-                        android:onClick="onButtonDelete"
-                        android:text="삭제"
-                        android:textColor="#ffffff"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/buttonDelete"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonDelete"
+            android:text="삭제"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

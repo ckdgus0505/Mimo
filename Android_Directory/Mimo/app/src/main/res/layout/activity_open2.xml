@@ -1,96 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Open2Activity">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="메모장"
+            android:textColor="#000000"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="메모장"
-                android:textColor="#000000"
-                android:textSize="30dp"
-                android:textStyle="bold" />
-        </LinearLayout>
 
-        <LinearLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ButtonView"
+        android:layout_below="@+id/Title">
+
+        <EditText
+            android:id="@+id/mimoText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:orientation="vertical">
+            android:layout_margin="2dp"
+            android:background="@android:color/background_light"
+            android:hint="내용을 입력하세요!"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textColorHint="#000000" />
+    </ScrollView>
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_weight="5"
-                android:layout_height="0dp">
+    <LinearLayout
+        android:id="@+id/ButtonView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/mimoText"
-                        android:layout_width="350dp"
-                        android:layout_height="486dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="2dp"
-                        android:background="@color/colorPrimary"
-                        android:hint="내용을 입력하세요!"
-                        android:padding="10dp"
-                        android:textColor="#000000"
-                        android:textColorHint="#000000" />
-                </LinearLayout>
-            </ScrollView>
+        <Button
+            android:id="@+id/buttonSync"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonSync"
+            android:text="동기화"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/buttonSync"
-                android:layout_width="350dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_margin="2dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryDark"
-                android:onClick="onButtonSync"
-                android:text="동기화"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/back"
-                android:layout_width="350dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_margin="2dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryDark"
-                android:onClick="onButtonBack"
-                android:text="뒤로가기"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/back"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonBack"
+            android:text="뒤로가기"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
