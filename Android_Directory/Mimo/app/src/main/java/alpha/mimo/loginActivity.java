@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +20,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class loginActivity extends AppCompatActivity {
-    TextView inputID;
-    TextView inputPW;
+    EditText inputID;
+    EditText inputPW;
     String testphp;
     URLConnector task;
     @Override
@@ -49,8 +51,9 @@ public class loginActivity extends AppCompatActivity {
             boolean state =false;
             JSONObject root = new JSONObject(result);
             JSONArray ja = root.getJSONArray("result");
-            inputID = (TextView) findViewById(R.id.inputID);
-            inputPW = (TextView) findViewById(R.id.inputPW);
+            inputID = (EditText) findViewById(R.id.inputID);
+            inputPW = (EditText) findViewById(R.id.inputPW);
+            inputPW.setTransformationMethod(new PasswordTransformationMethod());
             for(int i=0;i<ja.length();i++){
                 Log.d("SAMPLEHTTP",i+"");
                 JSONObject jo = ja.getJSONObject(i);
