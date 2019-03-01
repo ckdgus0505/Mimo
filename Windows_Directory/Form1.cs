@@ -60,7 +60,7 @@ namespace Mimo
 
             //3. 접속(전화걸기)
             sock.Connect(endPoint);
-            data = Encoding.Default.GetBytes(ID);
+            data = Encoding.UTF8.GetBytes(ID);
             sock.Send(data);
             System.Threading.Thread.Sleep(100);
             data = Null;
@@ -131,7 +131,7 @@ namespace Mimo
                             FileInfo file = new FileInfo(txtFilePath);
                             fileTitle.Text = txtFileName.Split('.')[0];
                             FileStream fp = file.OpenRead();
-                            StreamReader sr = new StreamReader(fp, System.Text.Encoding.Default);
+                            StreamReader sr = new StreamReader(fp, System.Text.Encoding.UTF8);
                             showMemo.Text = sr.ReadToEnd();
                             sr.Close();
                             fp.Close();
@@ -165,7 +165,7 @@ namespace Mimo
                     title = string.Concat(title, ".mimm");
                     title = string.Concat('\\', title);
                     filePath = string.Concat(dirPath, title);
-                    string text = System.IO.File.ReadAllText(filePath, Encoding.Default);
+                    string text = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
                     showMemo.Text = text;
                     fileTitle.Text = mimLists.SelectedItem.ToString();
                 }
@@ -186,15 +186,14 @@ namespace Mimo
                 try
                 {
                     
-                    Byte[] data = Encoding.Default.GetBytes("a");
+                    Byte[] data = Encoding.UTF8.GetBytes("a");
                     sock.Send(data);
                     data = (Byte[])Null.Clone();
                     System.Threading.Thread.Sleep(10);
 
                     fileTitle.Text = mimLists.SelectedItem.ToString();
-
                     filename = mimLists.SelectedItem.ToString() + ".mimm";
-                    data = Encoding.Default.GetBytes(filename);
+                    data = Encoding.UTF8.GetBytes(filename);
                     sock.Send(data);
                     data = (Byte[])Null.Clone();
                     System.Threading.Thread.Sleep(10);
@@ -203,7 +202,7 @@ namespace Mimo
                     while (length != 0)
                     {
                         length = sock.Receive(data);
-                        showMemo.Text =showMemo.Text.ToString() +  Encoding.Default.GetString(data);
+                        showMemo.Text =showMemo.Text.ToString() +  Encoding.UTF8.GetString(data);
                         data = (Byte[])Null.Clone();
                     }
                 }
@@ -263,16 +262,16 @@ namespace Mimo
                     Socket sock = connection();
                     try
                     {
-                        data = Encoding.Default.GetBytes("d");
+                        data = Encoding.UTF8.GetBytes("d");
                         sock.Send(data);
                         System.Threading.Thread.Sleep(10);
                         data = (Byte[])Null.Clone();
                         filename = mimLists.SelectedItem.ToString() + ".mimm";
-                        data = Encoding.Default.GetBytes(filename);
+                        data = Encoding.UTF8.GetBytes(filename);
                         sock.Send(data); // 삭제할 파일 이름보냄
                         data = (Byte[])Null.Clone();
                         length = sock.Receive(data);
-                        result = Encoding.Default.GetString(data);
+                        result = Encoding.UTF8.GetString(data);
                         showMemo.ResetText();
                         fileTitle.ResetText();
                         mimLists.Items.Remove(mimLists.SelectedItem);
@@ -345,18 +344,18 @@ namespace Mimo
                 try
                 {
 
-                    Byte[] data = Encoding.Default.GetBytes("b");
+                    Byte[] data = Encoding.UTF8.GetBytes("b");
                     sock.Send(data);
                     data = (Byte[])Null.Clone();
                     System.Threading.Thread.Sleep(10);
 
                     filename = fileTitle.Text.ToString() + ".mimm";
-                    data = Encoding.Default.GetBytes(filename);
+                    data = Encoding.UTF8.GetBytes(filename);
                     sock.Send(data);
                     data = (Byte[])Null.Clone();
                     System.Threading.Thread.Sleep(10);
                  
-                    data = Encoding.Default.GetBytes(showMemo.Text.ToString());
+                    data = Encoding.UTF8.GetBytes(showMemo.Text.ToString());
                     sock.Send(data);
                     data = (Byte[])Null.Clone();
 
@@ -412,20 +411,20 @@ namespace Mimo
 
                     string temp;
                     int num = 0;
-                    data = Encoding.Default.GetBytes("c");
+                    data = Encoding.UTF8.GetBytes("c");
                     sock.Send(data);
                     System.Threading.Thread.Sleep(10);
                     data = (Byte[])Null.Clone();
 
                     length = sock.Receive(data, data.Length, SocketFlags.None);
                     System.Threading.Thread.Sleep(100);
-                    temp = Encoding.Default.GetString(data);
+                    temp = Encoding.UTF8.GetString(data);
                     num = int.Parse(temp.ToString());
                     System.Threading.Thread.Sleep(100);
 
                     string[] separatingChars = { ".mimm" };
                     length = sock.Receive(data);
-                    temp = Encoding.Default.GetString(data);
+                    temp = Encoding.UTF8.GetString(data);
                     string[] words = temp.Split(separatingChars, System.StringSplitOptions.RemoveEmptyEntries);
                     
                     for (int i = 0; i < num; i++)
