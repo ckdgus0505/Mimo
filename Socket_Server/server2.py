@@ -31,7 +31,6 @@ def on_new_client(conn, addr):
 
     if (service_number[-1] == '\n'):
         service_number = service_number[:-1]
-    print('service_number[%s]' % service_number)
     if (service_number == 'a'):
         print('[%s] 파일 클라이언트로 전송 서비스' % addr[0])
         Server2Client(conn, Path)
@@ -42,8 +41,8 @@ def on_new_client(conn, addr):
         print('[%s] 파일 목록 전송 서비스' % addr[0])
         SendList(conn, Path)
     elif (service_number == 'j'):
-        print('[%s] 파일 목록 전송 서비스(java)' % addr[0])
-        SendList(conn, Path)
+        print('[%s] 파일 서버로 전송 서비스(java)' % addr[0])
+        Client2ServerJava(conn, Path)
     elif (service_number == 'd'):
         print('[%s] 파일 삭제 서비스' % addr[0])
         DeleteFile(conn, Path)

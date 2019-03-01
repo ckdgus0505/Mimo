@@ -63,7 +63,6 @@ public class New2Activity extends AppCompatActivity {
                 socketThread.join();
             }catch (Exception e){}
             Intent intent = new Intent();
-            intent.putExtra("fileName",fileName);
             setResult(Activity.RESULT_OK,intent);
             finish();
         } catch (Exception e) {
