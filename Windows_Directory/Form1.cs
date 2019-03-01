@@ -410,16 +410,17 @@ namespace Mimo
                     mimLists.Items.Clear();
 
                     string temp;
+                    Byte []tmp = new Byte[4];
                     int num = 0;
                     data = Encoding.UTF8.GetBytes("c");
                     sock.Send(data);
                     System.Threading.Thread.Sleep(10);
                     data = (Byte[])Null.Clone();
 
-                    length = sock.Receive(data, data.Length, SocketFlags.None);
+                    sock.Receive(tmp);
+                    MessageBox.Show(Encoding.UTF8.GetString(tmp));
                     System.Threading.Thread.Sleep(100);
-                    temp = Encoding.UTF8.GetString(data);
-                    num = int.Parse(temp.ToString());
+                    num = int.Parse(Encoding.UTF8.GetString(tmp));
                     System.Threading.Thread.Sleep(100);
 
                     string[] separatingChars = { ".mimm" };
