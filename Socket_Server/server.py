@@ -22,6 +22,8 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
     def handle(self):
         print('[%s] 연결됨' % self.client_address[0])
         ID = self.request.recv(21).decode()
+        if(ID[-1]=='\n'):
+            ID = ID[:-1]
         Path = './mimms/'+ID+'/'
 
         try:  # make directory if not exist
@@ -31,28 +33,37 @@ class MyTcpHandler(socketserver.BaseRequestHandler):
             if e.errno != errno.EEXIST:
                 print("Failed to create directory!!!!!")
                 raise
-
-        service_number = self.request.recv(1024)
-        if (service_number.decode() == 'a'):
+        service_number = self.request.recv(1024).decode()
+        if (service_number[-1] == '\n'):
+            service_number = service_number[:-1]
+        if (service_number == 'a'):
             print('[%s] 파일 클라이언트로 전송 서비스' % self.client_address[0])
             Server2Client(self, Path)
-        elif (service_number.decode() == 'b'):
+        elif (service_number == 'b'):
             print('[%s] 파일 서버로 전송 서비스' % self.client_address[0])
             Client2Server(self, Path)
-        elif (service_number.decode() == 'c'):
+        elif (service_number == 'j'):
+            print('[%s] 파일 서버로 전송 서비스(java)' % self.client_address[0])
+            Client2ServerJava(self, Path)
+        elif (service_number == 'c'):
             print('[%s] 파일 목록 전송 서비스' % self.client_address[0])
             SendList(self, Path)
-        elif (service_number.decode() == 'd'):
+        elif (service_number == 'd'):
             print('[%s] 파일 삭제 서비스' % self.client_address[0])
             DeleteFile(self, Path)
+
         print('[%s] 연결 끊김' % self.client_address[0])
 
 
 # 1,서버 -> 클라이언트 파일 전송 모듈
 def Server2Client(self, Path):
     data_transferred = 0
+    print('server2client ')
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
     filename = filename.decode()  # 파일이름 이진 바이트 스트림 데이터를 일반 문자열로 변환
+    if (filename[-1] == '\n'):
+        filename = filename[:-1]
+    print('filename[%s] ' % filename)
     if not exists(Path + filename):  # 파일이 해당 디렉터리에 존재하지 않으면
         return  # handle()함수를 빠져 나온다.
 
@@ -67,14 +78,11 @@ def Server2Client(self, Path):
 
     print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0],filename, data_transferred))
 
-
 # 2,클라이언트 -> 서버 파일 전송 모듈
 def Client2Server(self, Path):
     data_transferred = 0
     filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
-
     data = self.request.recv(1024)
-
     if not data:
         print('[%s] %s 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename.decode()))
         return
@@ -97,6 +105,36 @@ def Client2Server(self, Path):
 
     print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0], filename.decode(), data_transferred))
 
+# JAVA,클라이언트 -> 서버 파일 전송 모듈
+def Client2ServerJava(self, Path):
+
+    data_transferred = 0
+    filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+    data = self.request.recv(1024)
+
+    if not data:
+        print('[%s] %s 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (self.client_address[0],filename.decode()))
+        return
+    try:  # make directory if not exist
+        if not (os.path.isdir(Path)):
+            os.makedirs(os.path.join(Path))
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            print("Failed to create directory!!!!!")
+            raise
+
+    with open(Path + filename.decode()[:-1], 'wb') as f:  # save file at directory
+        try:
+            while data:
+                f.write(data)
+                data_transferred += len(data)
+                data = self.request.recv(1024)
+                data =data[:-1]
+        except Exception as e:
+            print(e)
+
+    print('[%s] %s 전송완료, 전송량 [%dbite]' % (self.client_address[0], filename.decode(), data_transferred))
+
 #3.서버 내의 리스트를 보여줌
 def SendList(self, Path):
     cnt = sum([len(files) for r, d, files in os.walk(Path)])
@@ -109,10 +147,11 @@ def SendList(self, Path):
 
 #4. 클라이언트가 지정한 파일 서버 내에서 삭제
 def DeleteFile(self, Path):
-    filename = self.request.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
-
-    if os.path.isfile(Path + filename.decode()):
-        os.remove(Path + filename.decode())
+    filename = self.request.recv(1024).decode()  # 클라이언트로 부터 파일이름을 전달받음
+    if (filename[-1] == '\n'):
+        filename = filename[:-1]
+    if os.path.isfile(Path + filename):
+        os.remove(Path + filename)
         self.request.send('delete complete'.encode())
     else:
         self.request.send('no file exists'.encode())
