@@ -28,9 +28,10 @@ def on_new_client(conn, addr):
             raise
 
     service_number = conn.recv(1024).decode();
+
     if (service_number[-1] == '\n'):
         service_number = service_number[:-1]
-
+    print('service_number[%s]' % service_number)
     if (service_number == 'a'):
         print('[%s] 파일 클라이언트로 전송 서비스' % addr[0])
         Server2Client(conn, Path)
