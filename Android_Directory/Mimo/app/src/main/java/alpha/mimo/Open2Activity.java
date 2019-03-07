@@ -77,8 +77,11 @@ public class Open2Activity extends AppCompatActivity {
 
 
     public void onButtonSync(View view) {
-        socketThread = new SocketThread(ID,'j',fileName,String.valueOf(et.getText()),null);
+        socketThread = new SocketThread(ID,'j',fileName,et.getText().toString(),null);
         socketThread.start();
+        try{
+            socketThread.join();
+        }catch (Exception e){}
     }
     public void onButtonBack(View view) {
         finish();

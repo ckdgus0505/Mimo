@@ -111,6 +111,7 @@ def Client2ServerJava(self, Path):
     data_transferred = 0
     filename = conn.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
     data = conn.recv(1024)
+    data = data[:-1]
 
     if not data:
         print('[%s] %s 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (addr[0], filename.decode()))
