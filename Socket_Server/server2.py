@@ -146,12 +146,12 @@ def SendList(conn, Path):
 
 #4. 클라이언트가 지정한 파일 서버 내에서 삭제
 def DeleteFile(conn, Path):
-    filename = conn.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+    filename = conn.recv(1024).decode()  # 클라이언트로 부터 파일이름을 전달받음
     if (filename[-1] == '\n'):
         filename = filename[:-1]
 
-    if os.path.isfile(Path + filename.decode()):
-        os.remove(Path + filename.decode())
+    if os.path.isfile(Path + filename):
+        os.remove(Path + filename)
         conn.send('delete complete'.encode())
     else:
         conn.send('no file exists'.encode())
