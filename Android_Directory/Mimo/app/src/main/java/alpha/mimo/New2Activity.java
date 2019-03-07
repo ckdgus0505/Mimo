@@ -48,8 +48,8 @@ public class New2Activity extends AppCompatActivity {
         try {
             title = editTitle.getText().toString();
             content = editContent.getText().toString();
-            if(title.charAt(0)<'A'||'z'<title.charAt(0)){
-                Toast.makeText(getApplicationContext(), "제목의 첫글자는 영문자입니다. 다시입력하세요" , Toast.LENGTH_SHORT).show();
+            if('0'<=title.charAt(0)&&title.charAt(0)<='9'){
+                Toast.makeText(getApplicationContext(), "제목의 첫글자는 숫자가될수 없습니다. 다시입력하세요" , Toast.LENGTH_SHORT).show();
                 return;
             }
 

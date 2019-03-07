@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:hint="제목을 입력하세요(영문자로시작, .mimm이 없으면 자동으로 .mimm삽입)"
+            android:hint="제목입력(첫글자는 숫자불가능)"
 
             android:textColor="#000000"
             android:textSize="30dp" />

@@ -77,12 +77,14 @@ def Server2Client(conn, Path):
 # 2,클라이언트 -> 서버 파일 전송 모듈
 def Client2Server(conn, Path):
     data_transferred = 0
-    filename = conn.recv(1024)  # 클라이언트로 부터 파일이름을 전달받음
+    filename = conn.recv(1024).decode()  # 클라이언트로 부터 파일이름을 전달받음
+    if (filename[-1] == '\n'):
+        filename = filename[:-1]
 
     data = conn.recv(1024)
 
     if not data:
-        print('[%s] %s 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (addr[0], filename.decode()))
+        print('[%s] %s 파일: 클라이언트에 존재하지 않거나 전송중 오류발생' % (addr[0], filename))
         return
     try:  # make directory if not exist
         if not (os.path.isdir(Path)):
@@ -92,7 +94,7 @@ def Client2Server(conn, Path):
             print("Failed to create directory!!!!!")
             raise
 
-    with open(Path + filename.decode(), 'wb') as f:  # save file at directory
+    with open(Path + filename, 'wb') as f:  # save file at directory
         try:
             while data:
                 f.write(data)
@@ -101,7 +103,7 @@ def Client2Server(conn, Path):
         except Exception as e:
             print(e)
 
-    print('[%s] %s 전송완료, 전송량 [%dbite]' % (addr[0], filename.decode(), data_transferred))
+    print('[%s] %s 전송완료, 전송량 [%dbite]' % (addr[0], filename, data_transferred))
 
 # JAVA,클라이언트 -> 서버 파일 전송 모듈
 def Client2ServerJava(self, Path):
