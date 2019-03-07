@@ -128,7 +128,9 @@ def Client2ServerJava(self, Path):
             while data:
                 f.write(data)
                 data_transferred += len(data)
+                print("data:[%s]", data)
                 data = conn.recv(1024)
+                print("dataEnd")
                 data = data[:-1]
         except Exception as e:
             print(e)
