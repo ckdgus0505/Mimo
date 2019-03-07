@@ -93,6 +93,17 @@ public class Main2Activity extends AppCompatActivity {
         } catch(InterruptedException e) {}
     }
 
+    public void onButtonSync(View view)
+    {
+        items.clear();
+        socketThread = new SocketThread(ID,'c',null,null,myHandler);
+        socketThread.start();
+        try {
+            socketThread.join();	// th1의 작업이 끝날 때까지 기다린다
+            Toast.makeText(getApplicationContext(), "동기화되었습니다.", Toast.LENGTH_LONG).show();
+        } catch(InterruptedException e) {}
+    }
+
     public void onButtonOpen(View view)
     {
         int pos = memoListView.getCheckedItemPosition();

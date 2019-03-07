@@ -40,7 +40,8 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
@@ -52,7 +53,8 @@
             android:textStyle="bold" />
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
@@ -65,13 +67,29 @@
 
         <Button
             android:id="@+id/buttonDelete"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
             android:background="@color/colorPrimaryDark"
             android:onClick="onButtonDelete"
             android:text="삭제"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonSync"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonSync"
+            android:text="동기화"
             android:textColor="#ffffff"
             android:textSize="20dp"
             android:textStyle="bold" />
