@@ -80,11 +80,14 @@ public class SocketThread extends Thread {
                 Log.d("SAMPLEHTTP","j");
                 this.sleep(500);
                 socketOut.println(fileName);
+                Log.d("SAMPLEHTTP","filename:"+fileName);
                 this.sleep(500);
 
                 // 달라...
                 str = new String(this.content);
+                Log.d("SAMPLEHTTP","str:"+str);
                 socketOut.println(str);
+                socketOut.println("");
                 this.sleep(500);
 
                 Message msg =handler.obtainMessage();

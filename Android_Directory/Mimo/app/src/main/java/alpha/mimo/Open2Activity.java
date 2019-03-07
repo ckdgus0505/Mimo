@@ -82,6 +82,7 @@ public class Open2Activity extends AppCompatActivity {
         try{
             socketThread.join();
         }catch (Exception e){}
+        finish();
     }
     public void onButtonBack(View view) {
         finish();
