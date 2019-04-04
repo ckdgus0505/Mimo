@@ -43,6 +43,7 @@ class URLConnector extends Thread {
                         if(line == null){
                             break;
                         }
+                        Log.d("sampleHTTP",output.toString());
                         output.append(line + "\n");
                     }
 
